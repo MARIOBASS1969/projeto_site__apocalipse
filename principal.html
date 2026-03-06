@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <title>Eletrônico Apocalipse</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Merriweather:ital,opsz,wght@0,18..144,300..900;1,18..144,300..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+    body {
+      margin: 0;
+      font-family: "Merriweather", serif;
+      /* background-color: #fff; */
+      color:white;
+      font-weight: bold;
+      background-image: url(objeto.avif);
+      background-size: cover;
+    }
+
+    .logo {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 30px;
+     
+      
+    }
+
+    .img-logo {
+      width: 250px;
+      height: 150px;
+      border-radius: 10px;
+    }
+
+
+
+    h1{
+      font-size: 1.2rem;
+      text-align: start;
+    }
+
+    header {
+      background-color: #1db954;
+      padding: 20px;
+      text-align: center;
+      color: white;
+    }
+
+    /* nav {
+        display: flex;
+        justify-content: safe;
+        font-size: 14px;
+    } */
+
+    nav a {
+      /* align-items: center; */
+      margin: 0 5px;
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    a:hover{
+        color: chartreuse;
+        
+    }
+
+    section {
+      padding: 60px 20px;
+    }
+
+    .section-title {
+      color: white;
+      font-size: 1.2rem;
+      font-weight: bold;
+      text-align: center;
+      margin-bottom: 40px;
+      
+    }
+
+ 
+
+   .section-title{
+    margin-top: -10px;
+   }
+
+
+    .quem-somos, .componentes {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: 40px;
+    }
+
+    .componentes {
+        /* background-color: #1db954; */
+        background-image: url(green-gradient.jpg);
+        color: white;
+        border-radius: 10;
+    }
+
+    .quem-somos div, .componentes div {
+      max-width: 500px;
+    }
+
+    .quem-somos img, .componentes img {
+      width: 300px;
+      border-radius: 12px;
+    }
+
+    .quem-somos p{
+        font-size: 1.3rem;
+    }
+
+    .comp-list p {
+      margin: 10px 0;
+      font-size: 1.1rem;
+    }
+
+    .fotos-gallery {
+      border-radius: 12px;
+    }
+
+ 
+    .fotos-gallery img {
+      width: 310px;
+      height: 180px;
+      margin-left: 10px;
+      margin-top: 7px;
+      border-radius: 19px;
+    }
+
+    .agenda {
+      text-decoration: none;
+      text-align: center;
+    } 
+
+    .agenda ul {
+      list-style: none;
+    }
+
+    .age{
+      border: 2px solid #80e6e4;
+      box-shadow: 12px 9px 5px -5px rgba(217,72,72,0.75);
+      border-radius: 15px;
+    }
+
+    span {
+      font-size: 1.5rem;
+      color: rgb(227, 240, 41);
+      font-weight: bold;
+    }
+
+    form {
+      max-width: 500px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      
+    
+    }
+
+    form input, form textarea {
+      padding: 10px;
+      border-radius: 8px;
+      border: none;
+      font-size: 1rem;
+      border: 1px solid ;
+    }
+
+    form button {
+      padding: 12px;
+      background-color: #1db954;
+      color: white;
+      font-weight: bold;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    /* i {
+      margin-left: 50px;
+      color: rgb(164, 206, 228);
+      font-weight: bold;
+    } */
+
+    footer {
+      background-color: #1db954;
+      color: white;
+      text-align: center;
+      padding: 20px;
+      font-size: 0.8rem;
+    }
+
+     @media screen and (max-width: 768px) {
+      .quem-somos, .componentes, .agenda, .fotos {
+        flex-direction: column;
+        text-align: center;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">
+      <img class="img-logo" src="logo_apocalipse.png" alt="">
+    </div>
+    <!-- <h1>Eletrônico Apocalipse</h1> -->
+    <nav>
+      <a href="#quem-somos">Quem Somos</a>
+      <a href="#componentes">Componentes</a>
+       <a href="#fotos">Fotos</a>
+      <a href="#agenda">Agenda</a>
+      <a href="#contato">Contato</a>
+    </nav>
+  </header>
+
+  <section id="quem-somos">
+    <h2 class="section-title">Quem Somos</h2>
+    <div class="quem-somos">
+      <div>
+        <p>O <strong>Eletrônico Apocalípse</strong> louva ao Senhor de todo coração e proclama o Evangelho de Cristo por onde passa. Nossa missão é levar luz através da música eletrônica cristã, transformando ambientes com a presença de Deus.</p>
+      </div>
+      <img src="fardatodos.jpeg" alt="Banda Eletrônico Apocalipse" />
+      <!-- <img src="https://images.unsplash.com/photo-1487180144351-b8472da7d491?auto=format&fit=crop&w=600&q=60" alt="Banda Eletrônico Apocalipse" /> -->
+    </div>
+  </section><hr>
+
+  <section id="componentes">
+    <h2 class="section-title">Componentes</h2>
+    <div class="componentes">
+      <div class="comp-list">
+        <p><strong>Dirigente:</strong> Valteir Barros</p>
+        <p><strong>Vice-dirigente:</strong> Mario Roberto</p>
+        <p><strong>Secretária:</strong> Erica Madalena</p>
+        <p><strong>Vocalistas:</strong> Valteir / Heyane / Nubia</p>
+        <p><strong>Tecladista:</strong> Valteir / Marcos</p>
+        <p><strong>Baixista:</strong> Mário</p>
+        <p><strong>Baterista:</strong> Valdek / Heitor</p>
+        <p><strong>Guitarrista:</strong> Milton</p>
+        <p><strong>Violonista:</strong> Mário</p>
+      </div>
+      <img src="WhatsApp Image 2.jpeg" alt="Membros da banda" />
+    </div>
+  </section><hr>
+
+
+  <section id="fotos">
+    <h2 class="section-title">Fotos</h2>
+    <div class="fotos-gallery">
+      <img src="valteir.jpeg" alt="Foto da banda 1">
+      <img src="eyane_nubia.jpeg" alt="Foto da banda 2">
+      <img src="valdek.jpeg" alt="Foto da banda 3">
+      <img src="back-vocal.jpeg" alt="Foto da banda 4">
+    </div>
+  </section><hr>
+
+
+    <section id="agenda">
+    <h2 class="section-title">Agenda</h2>
+    <div class="agenda">
+      <div class="age">
+        <p>Confira nossos próximos momentos de louvor e adoração ao Senhor!</p>
+        <ul>
+          <li><span>13/06 Junho</span> - <strong> Festividade do Circulo de Oração em UR-04 Area-54</strong></li><br>
+          <li><span>14/15 Junho</span> - <strong> Festividade da Campanha Cx D´agua Area-54</strong></li><br>
+          <li><span>19/06 Junho</span> - <strong> Oração da Mocidade Lagoa Terminal Area-55</strong></li><br>
+          <li><span>20/06 Junho</span> - <strong> Abertura do Congresso de Jovens e Adolecentes Area-54</strong></li><br>
+        </ul>
+      </div>
+      <!-- <img src="https://images.unsplash.com/photo-1507878866276-a947ef722fee?auto=format&fit=crop&w=600&q=60" alt="Agenda de apresentações" /> -->
+    </div>
+  </section><hr>
+
+  <section id="contato">
+    <h2 class="section-title">Contato</h2>
+    <form onsubmit="enviarParaWhatsApp(event)">
+      <input type="text" id="nome" placeholder="Nome" required>
+      <input type="email" id="email" placeholder="E-mail" required>
+      <input type="text" id="whatsapp" placeholder="WhatsApp" required>
+      <textarea id="mensagem" rows="5" placeholder="Mensagem" required></textarea>
+      <button type="submit">Enviar via WhatsApp</button>
+    </form>
+  </section>
+
+<footer style="background-color: #1db954; color: white; text-align: center; padding: 20px;">
+  
+  <div style="margin-top: 10px;">
+    <a href="#" target="_blank" style="color: red; margin: 0 10px; font-size: 15px;">
+      <!-- https://www.youtube.com -->
+      <i class="fab fa-youtube"></i>
+    </a>
+    <a href="#" target="_blank" style="color:aqua; margin: 0 10px; font-size: 15px;">
+      <!--https://www.instagram.com-->
+      <i class="fab fa-instagram"></i>
+    </a>
+  </div>
+    <p>
+      © 2025 Eletrônico Apocalipse. Todos os direitos reservados — By Mário Oliveira.
+    </p>
+</footer>
+
+
+  <script>
+    function enviarParaWhatsApp(event) {
+      event.preventDefault();
+
+      const nome = document.getElementById('nome').value;
+      const email = document.getElementById('email').value;
+      const telefone = document.getElementById('whatsapp').value;
+      const mensagem = document.getElementById('mensagem').value;
+
+      const numeroWhatsApp = '558186340513'; // Substitua pelo seu número com DDI + DDD
+      // 558186340513
+      const texto = `Olá! Novo contato do site Eletrônico Apocalipse:%0A` +
+        `*Nome:* ${nome}%0A` +
+        `*E-mail:* ${email}%0A` +
+        `*WhatsApp:* ${telefone}%0A` +
+        `*Mensagem:* ${mensagem}`;
+
+      const url = `https://wa.me/${numeroWhatsApp}?text=${texto}`;
+      window.open(url, '_blank');
+    }
+  </script>
+</body>
+</html>
