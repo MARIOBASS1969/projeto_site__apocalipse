@@ -1,0 +1,452 @@
+ <!doctype html>
+<html lang="pt-br">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+<title>Eletrônico Apocalipse</title>
+
+<style>
+
+@import url("https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700&display=swap");
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+html{
+scroll-behavior:smooth;
+}
+
+section{
+scroll-margin-top:110px;
+}
+
+body{
+font-family:"Merriweather",serif;
+color:white;
+
+/* IMAGEM DE FUNDO */
+
+background-image:url("a991c83d-f967-4f3d-9f9f-d5695664a749.png");
+background-size:cover;
+background-position:center;
+background-repeat:no-repeat;
+
+/* FIXED REMOVIDO */
+
+background-attachment:scroll;
+
+background-color:#000;
+line-height:1.6;
+}
+
+/* HEADER */
+
+header{
+
+background:#000;
+box-shadow:0 0 20px #00fff7;
+
+display:flex;
+align-items:center;
+justify-content:space-between;
+
+padding:10px 40px;
+
+position:sticky;
+top:0;
+z-index:1000;
+
+}
+
+/* LOGO */
+
+.logo{
+display:flex;
+align-items:center;
+}
+
+.img-logo{
+width:110px;
+border-radius:10px;
+transition:.4s;
+}
+
+.img-logo:hover{
+transform:scale(1.05);
+box-shadow:0 0 15px #00fff7;
+}
+
+/* MENU */
+
+nav{
+flex:1;
+display:flex;
+justify-content:center;
+gap:30px;
+}
+
+nav a{
+
+color:#fff;
+text-decoration:none;
+font-size:1rem;
+
+text-shadow:0 0 8px #00fff7;
+
+transition:.3s;
+
+}
+
+nav a:hover{
+
+color:#e7f317;
+text-shadow:0 0 15px #e7f317;
+
+}
+
+/* MENU MOBILE */
+
+.menu-btn{
+
+display:none;
+font-size:25px;
+color:white;
+cursor:pointer;
+
+}
+
+/* TITULOS */
+
+.section-title{
+
+color:#00fff7;
+font-size:2rem;
+text-align:center;
+margin:60px 0 40px;
+
+text-shadow:0 0 10px #00fff7;
+
+}
+
+/* SEÇÕES */
+
+.quem-somos,
+.componentes{
+
+display:flex;
+align-items:center;
+justify-content:center;
+gap:60px;
+
+flex-wrap:wrap;
+
+padding:20px 40px;
+
+}
+
+.quem-somos div,
+.componentes div{
+max-width:500px;
+}
+
+.quem-somos img,
+.componentes img{
+
+width:420px;
+max-width:100%;
+
+border-radius:15px;
+
+box-shadow:0 0 20px rgba(0,255,247,.4);
+
+transition:.5s;
+
+}
+
+.quem-somos img:hover,
+.componentes img:hover{
+
+transform:scale(1.05);
+box-shadow:0 0 30px #00fff7;
+
+}
+
+/* COMPONENTES CARD */
+
+.componentes{
+
+background:rgba(0,0,0,.7);
+
+border:2px solid #00fff7;
+
+border-radius:20px;
+
+padding:40px;
+
+box-shadow:0 0 25px #00fff7;
+
+}
+
+/* GALERIA */
+
+.fotos-gallery{
+
+display:grid;
+
+grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+
+gap:25px;
+
+padding:0 40px 60px;
+
+}
+
+.fotos-gallery img{
+
+width:100%;
+
+height:220px;
+
+object-fit:cover;
+
+border-radius:20px;
+
+transition:.4s;
+
+box-shadow:0 0 15px rgba(0,255,247,.4);
+
+}
+
+.fotos-gallery img:hover{
+
+transform:scale(1.08);
+
+box-shadow:0 0 25px #e7f317;
+
+}
+
+/* AGENDA */
+
+.agenda{
+
+text-align:center;
+
+padding:60px 20px;
+
+background:#000;
+
+border-radius:20px;
+
+box-shadow:0 0 30px #00fff7;
+
+max-width:1000px;
+
+margin:auto;
+
+margin-bottom:80px;
+
+}
+
+.agenda ul{
+list-style:none;
+}
+
+.agenda li{
+
+margin-bottom:25px;
+
+font-size:1.2rem;
+
+background:#0f0f0f;
+
+padding:20px;
+
+border-radius:12px;
+
+box-shadow:0 0 15px #00fff7;
+
+transition:.3s;
+
+}
+
+.agenda li:hover{
+
+transform:translateY(-5px);
+
+box-shadow:0 0 25px #e7f317;
+
+}
+
+/* FORMULÁRIO */
+
+form{
+
+max-width:600px;
+
+margin:auto;
+
+margin-bottom:80px;
+
+display:flex;
+
+flex-direction:column;
+
+gap:18px;
+
+padding:20px;
+
+}
+
+form input,
+form textarea{
+
+padding:14px;
+
+border-radius:10px;
+
+border:1px solid #ccc;
+
+font-size:1rem;
+
+}
+
+form button{
+
+padding:14px;
+
+background:#00fff7;
+
+color:black;
+
+font-weight:bold;
+
+border:none;
+
+border-radius:10px;
+
+cursor:pointer;
+
+transition:.3s;
+
+}
+
+form button:hover{
+
+background:#e7f317;
+transform:scale(1.05);
+
+}
+
+/* FOOTER */
+
+footer{
+
+background:#000;
+
+color:#00fff7;
+
+text-align:center;
+
+padding:30px;
+
+box-shadow:0 0 15px #00fff7;
+
+}
+
+/* RESPONSIVO */
+
+@media(max-width:768px){
+
+header{
+flex-wrap:wrap;
+}
+
+nav{
+
+position:absolute;
+
+top:70px;
+
+left:0;
+
+width:100%;
+
+background:#000;
+
+flex-direction:column;
+
+align-items:center;
+
+gap:15px;
+
+padding:20px;
+
+display:none;
+
+}
+
+nav.active{
+display:flex;
+}
+
+.menu-btn{
+display:block;
+}
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<header>
+
+<div class="logo">
+<img class="img-logo" src="logo_apocalipse.png">
+</div>
+
+<nav id="menu">
+
+<a href="#quem-somos">Quem Somos</a>
+<a href="#componentes">Componentes</a>
+<a href="#fotos">Fotos</a>
+<a href="#agenda">Agenda</a>
+<a href="#contato">Contato</a>
+
+</nav>
+
+<div class="menu-btn" onclick="toggleMenu()">
+<i class="fas fa-bars"></i>
+</div>
+
+</header>
+
+<script>
+
+function toggleMenu(){
+
+const menu=document.getElementById("menu");
+menu.classList.toggle("active");
+
+}
+
+document.querySelectorAll("nav a").forEach(link=>{
+link.addEventListener("click",()=>{
+document.getElementById("menu").classList.remove("active");
+});
+});
+
+</script>
+
+</body>
+</html>
