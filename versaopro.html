@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Eletrônico Apocalipse</title>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+<style>
+
+@import url('https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700&display=swap');
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+html{
+scroll-behavior:smooth;
+}
+
+body{
+font-family:'Merriweather', serif;
+background:#000;
+color:white;
+line-height:1.6;
+background-image:url("a991c83d-f967-4f3d-9f9f-d5695664a749.png");
+background-size:cover;
+background-position:center;
+background-attachment:fixed;
+}
+
+/* HEADER */
+
+header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:10px 40px;
+background:#000;
+box-shadow:0 0 20px #00fff7;
+}
+
+/* LOGO */
+
+.img-logo{
+width:110px;
+border-radius:10px;
+transition:.4s;
+}
+
+.img-logo:hover{
+transform:scale(1.05);
+box-shadow:0 0 15px #00fff7;
+}
+
+/* MENU */
+
+nav{
+display:flex;
+gap:30px;
+}
+
+nav a{
+position:relative;
+text-decoration:none;
+color:white;
+font-size:1rem;
+padding:6px;
+}
+
+nav a::after{
+content:"";
+position:absolute;
+left:0;
+bottom:-5px;
+width:0%;
+height:2px;
+background:#00fff7;
+box-shadow:0 0 10px #00fff7;
+transition:.4s;
+}
+
+nav a:hover::after{
+width:100%;
+}
+
+/* MENU MOBILE */
+
+.menu-btn{
+display:none;
+font-size:25px;
+cursor:pointer;
+}
+
+/* TITULOS */
+
+.section-title{
+text-align:center;
+color:#00fff7;
+margin:60px 0 40px;
+font-size:2rem;
+text-shadow:0 0 10px #00fff7;
+}
+
+/* SEÇÕES */
+
+section{
+opacity:0;
+transform:translateY(40px);
+transition:1s;
+padding:20px 40px;
+}
+
+section.visible{
+opacity:1;
+transform:translateY(0);
+}
+
+/* QUEM SOMOS */
+
+.quem-somos{
+display:flex;
+align-items:center;
+justify-content:center;
+gap:60px;
+flex-wrap:wrap;
+}
+
+.quem-somos img{
+width:420px;
+max-width:100%;
+border-radius:15px;
+box-shadow:0 0 20px #00fff7;
+transition:.4s;
+}
+
+.quem-somos img:hover{
+transform:scale(1.05);
+}
+
+/* COMPONENTES */
+
+.componentes{
+display:flex;
+align-items:center;
+justify-content:center;
+gap:60px;
+flex-wrap:wrap;
+background:rgba(0,0,0,0.7);
+border:2px solid #00fff7;
+border-radius:20px;
+padding:40px;
+box-shadow:0 0 25px #00fff7;
+}
+
+.componentes img{
+width:420px;
+max-width:100%;
+border-radius:15px;
+}
+
+/* GALERIA */
+
+.fotos-gallery{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+gap:25px;
+}
+
+.fotos-gallery img{
+width:100%;
+height:220px;
+object-fit:cover;
+border-radius:20px;
+cursor:pointer;
+transition:.4s;
+box-shadow:0 0 15px #00fff7;
+}
+
+.fotos-gallery img:hover{
+transform:scale(1.08);
+box-shadow:0 0 30px #00fff7;
+}
+
+/* LIGHTBOX */
+
+#lightbox{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,.9);
+display:none;
+align-items:center;
+justify-content:center;
+z-index:2000;
+}
+
+#lightbox img{
+max-width:90%;
+max-height:90%;
+border-radius:10px;
+box-shadow:0 0 30px #00fff7;
+}
+
+/* AGENDA */
+
+.agenda{
+max-width:1000px;
+margin:auto;
+text-align:center;
+}
+
+.agenda ul{
+list-style:none;
+}
+
+.agenda li{
+background:#0f0f0f;
+margin:20px 0;
+padding:20px;
+border-radius:12px;
+box-shadow:0 0 15px #00fff7;
+}
+
+/* FORMULÁRIO */
+
+form{
+max-width:600px;
+margin:auto;
+display:flex;
+flex-direction:column;
+gap:15px;
+}
+
+input,textarea{
+padding:12px;
+border-radius:10px;
+border:none;
+}
+
+button{
+padding:14px;
+background:#00fff7;
+border:none;
+border-radius:10px;
+font-weight:bold;
+cursor:pointer;
+box-shadow:0 0 10px #00fff7;
+transition:.3s;
+}
+
+button:hover{
+background:#e7f317;
+box-shadow:0 0 25px #e7f317;
+}
+
+/* FOOTER */
+
+footer{
+text-align:center;
+padding:30px;
+background:#000;
+color:#00fff7;
+box-shadow:0 0 15px #00fff7;
+margin-top:50px;
+}
+
+/* RESPONSIVO */
+
+@media(max-width:768px){
+
+nav{
+position:absolute;
+top:70px;
+left:0;
+width:100%;
+background:#000;
+flex-direction:column;
+align-items:center;
+display:none;
+padding:20px;
+}
+
+nav.active{
+display:flex;
+}
+
+.menu-btn{
+display:block;
+}
+
+}
+
+</style>
+</head>
+
+<body>
+
+<header>
+
+<img src="logo_apocalipse.png" class="img-logo">
+
+<nav id="menu">
+<a href="#quem">Quem Somos</a>
+<a href="#componentes">Componentes</a>
+<a href="#fotos">Fotos</a>
+<a href="#agenda">Agenda</a>
+<a href="#contato">Contato</a>
+</nav>
+
+<div class="menu-btn" onclick="toggleMenu()">
+<i class="fas fa-bars"></i>
+</div>
+
+</header>
+
+<section id="quem">
+
+<h2 class="section-title">Quem Somos</h2>
+
+<div class="quem-somos">
+
+<div>
+<p>O <strong>Eletrônico Apocalipse</strong> louva ao Senhor e proclama o Evangelho através da música cristã.</p>
+</div>
+
+<img src="fardatodos.jpeg">
+
+</div>
+
+</section>
+
+<section id="componentes">
+
+<h2 class="section-title">Componentes</h2>
+
+<div class="componentes">
+
+<div>
+<p><strong>Dirigente:</strong> Valteir Barros</p>
+<p><strong>Vice-dirigente:</strong> Mario Roberto</p>
+<p><strong>Secretária:</strong> Erica Madalena</p>
+</div>
+
+<img src="WhatsApp Image 2.jpeg">
+
+</div>
+
+</section>
+
+<section id="fotos">
+
+<h2 class="section-title">Fotos</h2>
+
+<div class="fotos-gallery">
+
+<img src="valteir.jpeg" onclick="abrirFoto(this.src)">
+<img src="eyane_nubia.jpeg" onclick="abrirFoto(this.src)">
+<img src="valdek.jpeg" onclick="abrirFoto(this.src)">
+<img src="back-vocal.jpeg" onclick="abrirFoto(this.src)">
+
+</div>
+
+</section>
+
+<section id="agenda">
+
+<h2 class="section-title">Agenda</h2>
+
+<div class="agenda">
+
+<ul id="listaAgenda"></ul>
+
+</div>
+
+</section>
+
+<section id="contato">
+
+<h2 class="section-title">Contato</h2>
+
+<form onsubmit="enviarWhats(event)">
+
+<input type="text" id="nome" placeholder="Nome" required>
+<input type="email" id="email" placeholder="Email" required>
+<input type="text" id="telefone" placeholder="WhatsApp" required>
+
+<textarea id="mensagem" placeholder="Mensagem"></textarea>
+
+<button>Enviar via WhatsApp</button>
+
+</form>
+
+</section>
+
+<footer>
+
+<p>© 2026 Eletrônico Apocalipse</p>
+
+</footer>
+
+<div id="lightbox" onclick="fecharFoto()">
+<img id="foto-ampliada">
+</div>
+
+<script>
+
+/* MENU MOBILE */
+
+function toggleMenu(){
+document.getElementById("menu").classList.toggle("active");
+}
+
+/* ANIMAÇÃO SEÇÕES */
+
+const sections=document.querySelectorAll("section");
+
+window.addEventListener("scroll",()=>{
+
+sections.forEach(sec=>{
+
+const pos=sec.getBoundingClientRect().top;
+
+if(pos < window.innerHeight-100){
+sec.classList.add("visible");
+}
+
+});
+
+});
+
+/* LIGHTBOX */
+
+function abrirFoto(src){
+
+document.getElementById("lightbox").style.display="flex";
+document.getElementById("foto-ampliada").src=src;
+
+}
+
+function fecharFoto(){
+document.getElementById("lightbox").style.display="none";
+}
+
+/* AGENDA AUTOMÁTICA */
+
+const eventos=[
+{data:"2026-04-11",titulo:"Aniversário do Grupo Apocalipse"},
+{data:"2026-05-30",titulo:"Conjunto Lagoa Encantada"},
+{data:"2026-06-13",titulo:"Campanha UR5 Caixa D'água"},
+{data:"2026-07-12",titulo:"Aniversário do Templo"}
+];
+
+eventos.sort((a,b)=> new Date(a.data)-new Date(b.data));
+
+const lista=document.getElementById("listaAgenda");
+
+eventos.forEach(evento=>{
+
+const li=document.createElement("li");
+
+li.innerHTML=`<strong>${evento.data}</strong> - ${evento.titulo}`;
+
+lista.appendChild(li);
+
+});
+
+/* WHATSAPP */
+
+function enviarWhats(event){
+
+event.preventDefault();
+
+const nome=document.getElementById("nome").value;
+const email=document.getElementById("email").value;
+const telefone=document.getElementById("telefone").value;
+const mensagem=document.getElementById("mensagem").value;
+
+const numero="558186340513";
+
+const texto=`Olá! Contato do site Apocalipse:
+Nome: ${nome}
+Email: ${email}
+WhatsApp: ${telefone}
+Mensagem: ${mensagem}`;
+
+window.open(`https://wa.me/${numero}?text=${encodeURIComponent(texto)}`);
+
+}
+
+</script>
+
+</body>
+</html>
