@@ -12,7 +12,15 @@
     <title>Eletrônico Apocalipse</title>
 
     <style>
-      @import url("https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700&display=swap");
+      @import url("https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700&family=Oswald:wght@500;600;700&display=swap");
+
+      :root {
+        --bg: #050505;
+        --cyan: #00fff7;
+        --yellow: #e7f317;
+        --card: rgba(15, 15, 15, 0.85);
+        --max-width: 1200px;
+      }
 
       * {
         margin: 0;
@@ -24,39 +32,59 @@
         scroll-behavior: smooth;
       }
 
+      @media (prefers-reduced-motion: reduce) {
+        html {
+          scroll-behavior: auto;
+        }
+        * {
+          animation-duration: 0.01ms !important;
+          transition-duration: 0.01ms !important;
+        }
+      }
+
       section {
-        scroll-margin-top: 110px;
+        scroll-margin-top: 90px;
       }
 
       body {
         font-family: "Merriweather", serif;
-        color: white;
+        color: #f2f2f2;
         background-image: url("a991c83d-f967-4f3d-9f9f-d5695664a749.png");
         background-size: cover;
         background-position: center;
+        background-attachment: fixed;
         background-repeat: no-repeat;
-        background-color: #000;
+        background-color: var(--bg);
         line-height: 1.6;
+        overflow-x: hidden;
+      }
+
+      a:focus-visible,
+      button:focus-visible,
+      input:focus-visible,
+      textarea:focus-visible {
+        outline: 2px solid var(--yellow);
+        outline-offset: 3px;
       }
 
       /* HEADER */
 
       header {
-        background: #000;
-        box-shadow: 0 0 20px #00fff7;
+        background: rgba(0, 0, 0, 0.92);
+        backdrop-filter: blur(6px);
+        box-shadow: 0 0 20px rgba(0, 255, 247, 0.6);
 
         display: flex;
         align-items: center;
         justify-content: space-between;
+        gap: 16px;
 
-        padding: 10px 40px;
+        padding: 10px clamp(16px, 5vw, 40px);
 
         position: sticky;
         top: 0;
         z-index: 1000;
       }
-
-      /* LOGO */
 
       .logo {
         display: flex;
@@ -64,14 +92,15 @@
       }
 
       .img-logo {
-        width: 110px;
+        width: clamp(70px, 8vw, 110px);
         border-radius: 10px;
         transition: 0.4s;
+        display: block;
       }
 
       .img-logo:hover {
         transform: scale(1.05);
-        box-shadow: 0 0 15px #00fff7;
+        box-shadow: 0 0 15px var(--cyan);
       }
 
       /* MENU */
@@ -80,242 +109,364 @@
         flex: 1;
         display: flex;
         justify-content: center;
-        gap: 30px;
+        gap: clamp(14px, 3vw, 30px);
+        flex-wrap: wrap;
       }
 
       nav a {
         color: #fff;
         text-decoration: none;
-        font-size: 1rem;
-
-        text-shadow: 0 0 8px #00fff7;
-
+        font-family: "Oswald", sans-serif;
+        font-size: 0.95rem;
+        letter-spacing: 0.03em;
+        text-transform: uppercase;
+        text-shadow: 0 0 8px var(--cyan);
         transition: 0.3s;
+        padding: 6px 2px;
       }
 
-      nav a:hover {
-        color: #e7f317;
-        text-shadow: 0 0 15px #e7f317;
+      nav a:hover,
+      nav a:focus-visible {
+        color: var(--yellow);
+        text-shadow: 0 0 15px var(--yellow);
       }
-
-      /* MENU MOBILE */
 
       .menu-btn {
         display: none;
         font-size: 25px;
         color: white;
         cursor: pointer;
+        background: none;
+        border: none;
+      }
+
+      /* VIEW COUNTER */
+
+      .view-counter {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-family: "Oswald", sans-serif;
+        font-size: 0.85rem;
+        color: var(--cyan);
+        white-space: nowrap;
+        text-shadow: 0 0 8px rgba(0, 255, 247, 0.6);
+      }
+
+      .view-counter i {
+        font-size: 0.9rem;
       }
 
       /* TITULOS */
 
       .section-title {
-        color: #00fff7;
-        font-size: 2rem;
+        color: var(--cyan);
+        font-family: "Oswald", sans-serif;
+        font-weight: 600;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        font-size: clamp(1.5rem, 4vw, 2.2rem);
         text-align: center;
         margin: 60px 0 40px;
-
-        text-shadow: 0 0 10px #00fff7;
+        text-shadow: 0 0 10px var(--cyan);
       }
 
       /* SEÇÕES */
 
       .quem-somos,
-      .componentes {
+      .componentes-wrap {
         display: flex;
         align-items: center;
         justify-content: center;
-        gap: 60px;
-
+        gap: clamp(24px, 5vw, 60px);
         flex-wrap: wrap;
-
-        padding: 20px 40px;
+        padding: 20px clamp(16px, 5vw, 40px);
+        max-width: var(--max-width);
+        margin: 0 auto;
       }
 
       .quem-somos div,
-      .componentes div {
+      .componentes-wrap > div:first-child {
         max-width: 500px;
+        flex: 1 1 320px;
       }
 
       .quem-somos img,
-      .componentes img {
+      .componentes-wrap img {
         width: 420px;
         max-width: 100%;
-
         border-radius: 15px;
-
         box-shadow: 0 0 20px rgba(0, 255, 247, 0.4);
-
         transition: 0.5s;
+        flex: 1 1 320px;
       }
 
       .quem-somos img:hover,
-      .componentes img:hover {
+      .componentes-wrap img:hover {
         transform: scale(1.05);
-        box-shadow: 0 0 30px #00fff7;
+        box-shadow: 0 0 30px var(--cyan);
       }
 
       /* CARD COMPONENTES */
 
       .componentes {
-        background: rgba(0, 0, 0, 0.7);
+        max-width: var(--max-width);
+        margin: 0 auto;
+        padding: 0 clamp(16px, 5vw, 40px);
+      }
 
-        border: 2px solid #00fff7;
-
+      .componentes-wrap {
+        background: var(--card);
+        border: 2px solid var(--cyan);
         border-radius: 20px;
-
-        padding: 40px;
-
-        box-shadow: 0 0 25px #00fff7;
+        padding: clamp(20px, 4vw, 40px);
+        box-shadow: 0 0 25px rgba(0, 255, 247, 0.5);
       }
 
-      /* GALERIA */
-
-      .fotos-gallery {
-        display: grid;
-
-        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-
-        gap: 25px;
-
-        padding: 0 40px 60px;
+      .componentes-wrap p {
+        margin-bottom: 6px;
       }
 
-      .fotos-gallery img {
+      /* CARROSSEL */
+
+      .carousel-section {
+        max-width: var(--max-width);
+        margin: 0 auto;
+        padding: 0 clamp(16px, 5vw, 40px) 60px;
+      }
+
+      .gallery-intro {
+        text-align: center;
+        margin-bottom: 30px;
+      }
+
+      .gallery-intro h3 {
+        font-family: "Oswald", sans-serif;
+        color: var(--yellow);
+        font-size: clamp(1.1rem, 2.5vw, 1.4rem);
+        margin-bottom: 10px;
+      }
+
+      .gallery-intro p {
+        font-style: italic;
+        color: #ddd;
+        max-width: 700px;
+        margin: 0 auto;
+      }
+
+      .carousel {
+        position: relative;
         width: 100%;
-
-        height: 220px;
-
-        object-fit: cover;
-
+        max-width: 900px;
+        margin: 0 auto;
         border-radius: 20px;
-
-        transition: 0.4s;
-
-        box-shadow: 0 0 15px rgba(0, 255, 247, 0.4);
+        overflow: hidden;
+        box-shadow: 0 0 30px rgba(0, 255, 247, 0.4);
+        border: 2px solid rgba(0, 255, 247, 0.5);
+        background: #000;
       }
 
-      .fotos-gallery img:hover {
-        transform: scale(1.08);
+      .carousel-track-wrap {
+        position: relative;
+        width: 100%;
+        aspect-ratio: 4 / 3;
+        overflow: hidden;
+      }
 
-        box-shadow: 0 0 25px #e7f317;
+      .carousel-track {
+        display: flex;
+        height: 100%;
+        transition: transform 0.5s ease;
+      }
+
+      .carousel-slide {
+        flex: 0 0 100%;
+        height: 100%;
+      }
+
+      .carousel-slide img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+      }
+
+      .carousel-btn {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        background: rgba(0, 0, 0, 0.55);
+        border: 2px solid var(--cyan);
+        color: var(--cyan);
+        width: 44px;
+        height: 44px;
+        border-radius: 50%;
+        cursor: pointer;
+        font-size: 1.1rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: 0.3s;
+        z-index: 5;
+      }
+
+      .carousel-btn:hover {
+        background: var(--cyan);
+        color: #000;
+        box-shadow: 0 0 15px var(--cyan);
+      }
+
+      .carousel-btn.prev {
+        left: 14px;
+      }
+
+      .carousel-btn.next {
+        right: 14px;
+      }
+
+      .carousel-dots {
+        display: flex;
+        justify-content: center;
+        gap: 8px;
+        padding: 16px 0;
+        flex-wrap: wrap;
+      }
+
+      .carousel-dots button {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        border: 1px solid var(--cyan);
+        background: transparent;
+        cursor: pointer;
+        padding: 0;
+        transition: 0.3s;
+      }
+
+      .carousel-dots button.active {
+        background: var(--cyan);
+        box-shadow: 0 0 10px var(--cyan);
+      }
+
+      .carousel-counter {
+        position: absolute;
+        bottom: 14px;
+        right: 14px;
+        background: rgba(0, 0, 0, 0.6);
+        color: var(--cyan);
+        font-family: "Oswald", sans-serif;
+        font-size: 0.8rem;
+        padding: 4px 10px;
+        border-radius: 20px;
+        border: 1px solid rgba(0, 255, 247, 0.5);
+        z-index: 5;
       }
 
       /* AGENDA */
 
       .agenda {
         text-align: center;
-
-        padding: 60px 20px;
-
-        background: #000;
-
+        padding: 50px clamp(16px, 4vw, 50px);
+        background: var(--card);
         border-radius: 20px;
-
-        box-shadow: 0 0 30px #00fff7;
-
+        box-shadow: 0 0 30px rgba(0, 255, 247, 0.5);
         max-width: 1000px;
-
-        margin: auto;
-
-        margin-bottom: 80px;
+        margin: 0 auto 80px;
       }
 
       .agenda ul {
         list-style: none;
+        display: flex;
+        flex-direction: column;
+        gap: 25px;
       }
 
       .agenda li {
-        margin-bottom: 25px;
-
-        font-size: 1.2rem;
-
+        font-size: clamp(1rem, 2vw, 1.2rem);
         background: #0f0f0f;
-
         padding: 20px;
-
         border-radius: 12px;
-
-        box-shadow: 0 0 15px #00fff7;
-
+        box-shadow: 0 0 15px rgba(0, 255, 247, 0.5);
         transition: 0.3s;
+        text-align: left;
       }
 
       .agenda li:hover {
         transform: translateY(-5px);
-
-        box-shadow: 0 0 25px #e7f317;
+        box-shadow: 0 0 25px var(--yellow);
       }
 
-      span {
-        color: #e7f317;
+      .agenda li ul {
+        margin-top: 14px;
+        gap: 14px;
+      }
+
+      .agenda li li {
+        box-shadow: 0 0 10px rgba(0, 255, 247, 0.3);
+      }
+
+      .agenda span {
+        display: block;
+        color: var(--yellow);
         font-weight: bold;
+        margin-bottom: 6px;
       }
 
       /* FORMULÁRIO */
 
       form {
         max-width: 600px;
-
-        margin: auto;
-
-        margin-bottom: 80px;
-
+        margin: 0 auto 80px;
         display: flex;
-
         flex-direction: column;
-
         gap: 18px;
-
-        padding: 20px;
+        padding: 0 clamp(16px, 4vw, 20px);
       }
 
       form input,
       form textarea {
         padding: 14px;
-
         border-radius: 10px;
-
         border: 1px solid #ccc;
-
         font-size: 1rem;
+        font-family: inherit;
+        background: rgba(255, 255, 255, 0.95);
+        color: #111;
       }
 
       form button {
         padding: 14px;
-
-        background: #00fff7;
-
+        background: var(--cyan);
         color: black;
-
         font-weight: bold;
-
+        font-family: "Oswald", sans-serif;
+        text-transform: uppercase;
+        letter-spacing: 0.03em;
         border: none;
-
         border-radius: 10px;
-
         cursor: pointer;
-
         transition: 0.3s;
       }
 
       form button:hover {
-        background: #e7f317;
-        transform: scale(1.05);
+        background: var(--yellow);
+        transform: scale(1.03);
       }
 
       /* FOOTER */
 
       footer {
-        background: #000;
-
-        color: #00fff7;
-
+        background: rgba(0, 0, 0, 0.92);
+        color: var(--cyan);
         text-align: center;
+        padding: 30px clamp(16px, 4vw, 30px);
+        box-shadow: 0 0 15px rgba(0, 255, 247, 0.5);
+      }
 
-        padding: 30px;
-
-        box-shadow: 0 0 15px #00fff7;
+      footer p {
+        font-size: 0.9rem;
+        margin-top: 6px;
+        color: #ccc;
       }
 
       /* RESPONSIVO */
@@ -327,23 +478,14 @@
 
         nav {
           position: absolute;
-
-          top: 70px;
-
+          top: 100%;
           left: 0;
-
           width: 100%;
-
-          background: #000;
-
+          background: rgba(0, 0, 0, 0.97);
           flex-direction: column;
-
           align-items: center;
-
           gap: 15px;
-
           padding: 20px;
-
           display: none;
         }
 
@@ -355,8 +497,20 @@
           display: block;
         }
 
-        h2 .section-title {
-          margin-bottom: 100px;
+        .view-counter {
+          font-size: 0.75rem;
+        }
+
+        .carousel-btn {
+          width: 36px;
+          height: 36px;
+          font-size: 0.95rem;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .view-counter span {
+          display: none;
         }
       }
     </style>
@@ -365,7 +519,7 @@
   <body>
     <header>
       <div class="logo">
-        <img class="img-logo" src="logo_apocalipse.png" />
+        <img class="img-logo" src="logo_apocalipse.png" alt="Logo Eletrônico Apocalipse" />
       </div>
 
       <nav id="menu">
@@ -376,9 +530,15 @@
         <a href="#contato">Contato</a>
       </nav>
 
-      <div class="menu-btn" onclick="toggleMenu()">
-        <i class="fas fa-bars"></i>
+      <div class="view-counter" title="Total de visualizações">
+        <i class="fas fa-eye"></i>
+        <span>Visualizações:</span>
+        <strong id="view-count">0</strong>
       </div>
+
+      <button class="menu-btn" onclick="toggleMenu()" aria-label="Abrir menu">
+        <i class="fas fa-bars"></i>
+      </button>
     </header>
 
     <section id="quem-somos">
@@ -392,57 +552,79 @@
           </p>
         </div>
 
-        <img src="todos_apocalipse41anos.jpeg" />
+        <img src="todos_apocalipse41anos.jpeg" alt="Grupo Eletrônico Apocalipse - 41 anos" />
       </div>
     </section>
 
     <section id="componentes">
       <div class="componentes">
-        <div>
-          <h2 class="section-title">Componentes</h2>
+        <h2 class="section-title">Componentes</h2>
 
-          <p><strong>Dirigente:</strong> Valteir Barros</p>
-          <p><strong>Vice-dirigente:</strong> Mario Roberto</p>
-          <p><strong>Secretária:</strong> Erica Madalena</p>
-          <p>
-            <strong>Vocalistas:</strong> Valteir / Heyane / Ednice / Aninha /
-            Nubia
-          </p>
-          <p><strong>Tecladista:</strong> Valteir/Mário</p>
-          <p><strong>Baixista:</strong> Mário</p>
-          <p><strong>Baterista:</strong> Valdek / Heitor / Lucas</p>
-          <p><strong>Guitarrista:</strong> Milton</p>
-          <p><strong>Violonista:</strong> Mário</p>
+        <div class="componentes-wrap">
+          <div>
+            <p><strong>Dirigente:</strong> Valteir Barros</p>
+            <p><strong>Vice-dirigente:</strong> Mario Roberto</p>
+            <p><strong>Secretária:</strong> Erica Madalena</p>
+            <p>
+              <strong>Vocalistas:</strong> Valteir / Heyane / Ednice / Aninha /
+              Nubia
+            </p>
+            <p><strong>Tecladista:</strong> Valteir/Mário</p>
+            <p><strong>Baixista:</strong> Mário</p>
+            <p><strong>Baterista:</strong> Valdek / Heitor / Lucas</p>
+            <p><strong>Guitarrista:</strong> Milton</p>
+            <p><strong>Violonista:</strong> Mário</p>
+          </div>
+
+          <img src="WhatsApp Image 2.jpeg" alt="Componentes do grupo" />
         </div>
-
-        <img src="WhatsApp Image 2.jpeg" />
       </div>
     </section>
 
     <section id="fotos">
       <h2 class="section-title">Fotos</h2>
-      <div class="fotos-gallery">
-        <h2>41 anos</h2>
-        <h3>
-          "Bom é louvar ao Senhor e cantar louvores ao teu nome, ó Altíssimo!"
-          Salmo 92:1
-        </h3>
-        <img src="valteir41.jpeg" />
-        <img src="nice_eyane41.jpeg" />
-        <img src="eyane41.jpeg" />
-        <img src="nice41.jpeg" />
-        <img src="nubia41.jpeg" />
-        <img src="aninha_lara41.jpeg" />
-        <img src="marrio41.jpeg" />
-        <img src="milton41.jpeg" />
-        <img src="mario_jair_milton41.jpeg" />
-        <img src="mario_milton_esdras_nice.jpeg" />
-        <img src="valdeque41.jpeg" />
-        <img src="toy41.jpeg" />
-        <img src="lucas41.jpeg" />
-        <img src="primo_milton41.jpeg" />
-        <img src="grupo41.jpeg" />
-        <!-- <img src="logo_apocalipse.png" /> -->
+
+      <div class="carousel-section">
+        <div class="gallery-intro">
+          <h3>41 anos</h3>
+          <p>
+            "Bom é louvar ao Senhor e cantar louvores ao teu nome, ó
+            Altíssimo!" — Salmo 92:1
+          </p>
+        </div>
+
+        <div class="carousel" id="carousel">
+          <div class="carousel-track-wrap">
+            <div class="carousel-track" id="carousel-track">
+              <div class="carousel-slide"><img src="valteir41.jpeg" alt="Valteir - 41 anos" /></div>
+              <div class="carousel-slide"><img src="nice_eyane41.jpeg" alt="Nice e Eyane - 41 anos" /></div>
+              <div class="carousel-slide"><img src="eyane41.jpeg" alt="Eyane - 41 anos" /></div>
+              <div class="carousel-slide"><img src="nice41.jpeg" alt="Nice - 41 anos" /></div>
+              <div class="carousel-slide"><img src="nubia41.jpeg" alt="Nubia - 41 anos" /></div>
+              <div class="carousel-slide"><img src="aninha_lara41.jpeg" alt="Aninha e Lara - 41 anos" /></div>
+              <div class="carousel-slide"><img src="marrio41.jpeg" alt="Mário - 41 anos" /></div>
+              <div class="carousel-slide"><img src="milton41.jpeg" alt="Milton - 41 anos" /></div>
+              <div class="carousel-slide"><img src="mario_jair_milton41.jpeg" alt="Mário, Jair e Milton - 41 anos" /></div>
+              <div class="carousel-slide"><img src="mario_milton_esdras_nice.jpeg" alt="Mário, Milton, Esdras e Nice" /></div>
+              <div class="carousel-slide"><img src="valdeque41.jpeg" alt="Valdeque - 41 anos" /></div>
+              <div class="carousel-slide"><img src="toy41.jpeg" alt="Toy - 41 anos" /></div>
+              <div class="carousel-slide"><img src="lucas41.jpeg" alt="Lucas - 41 anos" /></div>
+              <div class="carousel-slide"><img src="primo_milton41.jpeg" alt="Primo de Milton - 41 anos" /></div>
+              <div class="carousel-slide"><img src="grupo41.jpeg" alt="Grupo completo - 41 anos" /></div>
+            </div>
+          </div>
+
+          <button class="carousel-btn prev" onclick="moveCarousel(-1)" aria-label="Foto anterior">
+            <i class="fas fa-chevron-left"></i>
+          </button>
+          <button class="carousel-btn next" onclick="moveCarousel(1)" aria-label="Próxima foto">
+            <i class="fas fa-chevron-right"></i>
+          </button>
+
+          <div class="carousel-counter" id="carousel-counter">1 / 15</div>
+        </div>
+
+        <div class="carousel-dots" id="carousel-dots"></div>
       </div>
     </section>
 
@@ -451,81 +633,59 @@
         <h2 class="section-title">Agenda</h2>
 
         <ul>
-          <!-- <li>
-            <span>11 e 12 de abril 2026</span>
-            <strong>Aniversário do Grupo Apocalipse </strong>
-            <small></small>
-          </li> -->
-
-          <!-- <li>
-            <span>30 de Maio 2026</span>
-            <strong>Aniversário do conjunto musical Lagoa Encantada </strong>
-            <small
-              >Presença do Eletrõnico apocalipse e Conjunto musical Caixa dgua
-            </small>
-          </li> -->
-
-          
-          <!-- <li>
-            <span>13 e 14 de junho 2026</span>
-            <strong>Aniversário da Campanha UR5 Caixa Dágua</strong>
-            <small> </small>
-          </li> -->
-
           <li>
             <span>28 de junho 2026</span>
             <strong>Gravata</strong>
-            <small> </small>
           </li>
-          
+
           <li>
             <span>12 de julho 2026</span>
             <strong>Aniversário do templo</strong>
-            <small> </small>
           </li>
-          
+
           <li>
             <span>19 de julho 2026</span>
             <strong>Aniversário do PROATI</strong>
-            <small> </small>
           </li>
-          
+
           <li>
             <span>1 e 2 de agosto 2026</span>
             <strong>Aniversário da União</strong>
-            <li>
-
-              <span>30 de Agosto 2026</span>
-              <strong>Aniversário do Eletrônico Shekina <br>
-                Pastor Ev.: Severino Ferreira:
-                Dirigente: Gerson Leoncio <br>
-                Vice-dirigente: Danilo Santana<br>
-                Barra de Guabiraba PE.</strong>
-              <small> </small>
-            </li>
-            <small> </small>
           </li>
 
           <li>
-            <span> 30 de agosto 2026 </span>
-            <strong>grupo jovem</strong>
-            <small> </small>
+            <span>30 de agosto 2026</span>
+            <strong>Aniversário do Eletrônico Shekina</strong>
+            <ul>
+              <li>
+                <strong>
+                  Pastor Ev.: Severino Ferreira<br />
+                  Dirigente: Gerson Leoncio<br />
+                  Vice-dirigente: Danilo Santana<br />
+                  Barra de Guabiraba PE.
+                </strong>
+              </li>
+            </ul>
           </li>
 
           <li>
-            <span> 12 e 13 de setembro 2026</span>
-            <strong>Aniversário do vocal </strong>
-            <small> </small>
+            <span>30 de agosto 2026</span>
+            <strong>Grupo Jovem</strong>
           </li>
+
           <li>
-            <span> 19 e 20 de setembro 2026</span>
-            <strong>Aniversário do COI </strong>
-            <small> </small>
+            <span>12 e 13 de setembro 2026</span>
+            <strong>Aniversário do vocal</strong>
           </li>
+
           <li>
-            <span> 14 e 15 de novembro 2026</span>
-            <strong>Aniversário do conjunto </strong>
-            <small> </small>
+            <span>19 e 20 de setembro 2026</span>
+            <strong>Aniversário do COI</strong>
+          </li>
+
+          <li>
+            <span>14 e 15 de novembro 2026</span>
+            <strong>Aniversário do conjunto</strong>
           </li>
         </ul>
       </div>
@@ -560,9 +720,9 @@
     </footer>
 
     <script>
+      // MENU MOBILE
       function toggleMenu() {
-        const menu = document.getElementById("menu");
-        menu.classList.toggle("active");
+        document.getElementById("menu").classList.toggle("active");
       }
 
       document.querySelectorAll("nav a").forEach((link) => {
@@ -571,6 +731,83 @@
         });
       });
 
+      // CONTADOR DE VISUALIZAÇÕES (armazenado no navegador do visitante)
+      (function () {
+        try {
+          let count = parseInt(localStorage.getItem("ea_view_count") || "0", 10);
+          count += 1;
+          localStorage.setItem("ea_view_count", count);
+          document.getElementById("view-count").textContent = count.toLocaleString("pt-BR");
+        } catch (e) {
+          document.getElementById("view-count").textContent = "—";
+        }
+      })();
+
+      // CARROSSEL
+      const track = document.getElementById("carousel-track");
+      const slides = Array.from(track.children);
+      const dotsWrap = document.getElementById("carousel-dots");
+      const counterEl = document.getElementById("carousel-counter");
+      let currentIndex = 0;
+      let autoplayTimer = null;
+
+      slides.forEach((_, i) => {
+        const dot = document.createElement("button");
+        dot.setAttribute("aria-label", "Ir para foto " + (i + 1));
+        if (i === 0) dot.classList.add("active");
+        dot.addEventListener("click", () => goToSlide(i));
+        dotsWrap.appendChild(dot);
+      });
+
+      function updateCarousel() {
+        track.style.transform = `translateX(-${currentIndex * 100}%)`;
+        counterEl.textContent = `${currentIndex + 1} / ${slides.length}`;
+        Array.from(dotsWrap.children).forEach((dot, i) => {
+          dot.classList.toggle("active", i === currentIndex);
+        });
+      }
+
+      function moveCarousel(direction) {
+        currentIndex = (currentIndex + direction + slides.length) % slides.length;
+        updateCarousel();
+        restartAutoplay();
+      }
+
+      function goToSlide(index) {
+        currentIndex = index;
+        updateCarousel();
+        restartAutoplay();
+      }
+
+      function startAutoplay() {
+        autoplayTimer = setInterval(() => moveCarousel(1), 5000);
+      }
+
+      function restartAutoplay() {
+        clearInterval(autoplayTimer);
+        startAutoplay();
+      }
+
+      // Suporte a swipe no mobile
+      const carouselEl = document.getElementById("carousel");
+      let touchStartX = 0;
+
+      carouselEl.addEventListener("touchstart", (e) => {
+        touchStartX = e.touches[0].clientX;
+      });
+
+      carouselEl.addEventListener("touchend", (e) => {
+        const touchEndX = e.changedTouches[0].clientX;
+        const diff = touchStartX - touchEndX;
+        if (Math.abs(diff) > 40) {
+          moveCarousel(diff > 0 ? 1 : -1);
+        }
+      });
+
+      updateCarousel();
+      startAutoplay();
+
+      // CONTATO VIA WHATSAPP
       function enviarParaWhatsApp(event) {
         event.preventDefault();
 
@@ -581,15 +818,15 @@
 
         const numero = "558186340513";
 
-        const texto = `Olá! Novo contato do site Eletrônico Apocalipse:%0A
-Nome: ${nome}%0A
-Email: ${email}%0A
-WhatsApp: ${telefone}%0A
-Mensagem: ${mensagem}`;
+        const texto =
+          `Olá! Novo contato do site Eletrônico Apocalipse:%0A` +
+          `Nome: ${nome}%0A` +
+          `Email: ${email}%0A` +
+          `WhatsApp: ${telefone}%0A` +
+          `Mensagem: ${mensagem}`;
 
         window.open(`https://wa.me/${numero}?text=${texto}`);
       }
     </script>
   </body>
 </html>
-```
