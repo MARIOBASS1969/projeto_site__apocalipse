@@ -1,0 +1,1241 @@
+ <!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Piano com Pentagrama (A4)</title>
+    <style>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        font-family: system-ui, sans-serif;
+      }
+      body {
+        background: #2a2a3e;
+        color: #eee;
+        padding: 12px;
+        min-height: 100vh;
+      }
+      h1 {
+        text-align: center;
+        margin-bottom: 10px;
+        font-size: 1.3rem;
+      }
+      .controls {
+        display: flex;
+        gap: 8px;
+        justify-content: center;
+        margin-bottom: 12px;
+        flex-wrap: wrap;
+      }
+      button {
+        padding: 8px 16px;
+        border: none;
+        border-radius: 6px;
+        background: #e94560;
+        color: #fff;
+        font-weight: bold;
+        cursor: pointer;
+        font-size: 0.95rem;
+      }
+      button:hover {
+        background: #ff5570;
+      }
+      button.stop {
+        background: #555;
+      }
+      /* A4 sheet */
+      .sheet {
+        background: #fff;
+        color: #000;
+        width: 210mm;
+        min-height: 297mm;
+        margin: 0 auto 16px;
+        padding: 12mm 10mm;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+        display: flex;
+        flex-direction: column;
+        gap: 6mm;
+      }
+      .sheet {
+        position: relative;
+      
+      }
+      .chord-label {
+        position: absolute;
+        font-family: Georgia, serif;
+        font-weight: bold;
+        font-size: 18pt;
+        color: #111;
+        background: transparent;
+        border: 1px dashed transparent;
+        padding: 2px 4px;
+        cursor: move;
+        user-select: none;
+        white-space: nowrap;
+        z-index: 5;
+      }
+      .chord-label:hover {
+        border-color: #e94560;
+      }
+      .chord-label.editing {
+        cursor: text;
+        background: #fffbe6;
+        border-color: #e94560;
+        user-select: text;
+      }
+      .chord-label .del {
+        position: absolute;
+        top: -10px;
+        right: -10px;
+        width: 18px;
+        height: 18px;
+        border-radius: 50%;
+        background: #e94560;
+        color: #fff;
+        font-size: 11px;
+        line-height: 18px;
+        text-align: center;
+        cursor: pointer;
+        display: none;
+      }
+      .chord-label:hover .del {
+        display: block;
+      }
+      @media print {
+        .chord-label {
+          border-color: transparent !important;
+          background: #fff !important;
+          padding: 1px 3px;
+        }
+        .chord-label .del {
+          display: none !important;
+        }
+      }
+      .sheet h2 {
+        font-size: 12pt;
+        text-align: center;
+        margin-bottom: 2mm;
+        color: #333;
+      }
+      .staff-box {
+        width: 100%;
+        position: relative;
+      }
+      .staff-box svg {
+        display: block;
+        width: 100%;
+        height: auto;
+      }
+      .note-label {
+        position: absolute;
+        transform: translate(-50%, -50%);
+        font-family: Georgia, serif;
+        font-weight: bold;
+        font-size: 15pt;
+        color: #111;
+        background: #fff;
+        border: 1.5px solid #333;
+        border-radius: 50%;
+        min-width: 34px;
+        height: 34px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0 6px;
+        cursor: move;
+        user-select: none;
+        white-space: nowrap;
+        z-index: 3;
+      }
+      .note-label:hover {
+        border-color: #e94560;
+      }
+      .note-label.editing {
+        cursor: text;
+        background: #fffbe6;
+        border-color: #e94560;
+        user-select: text;
+        border-radius: 6px;
+      }
+      .note-label.playing {
+        color: #e94560;
+        border-color: #e94560;
+        box-shadow: 0 0 0 2px #e94560;
+      }
+      .note-label .oct {
+        font-size: 9pt;
+        color: #666;
+        margin-left: 2px;
+        font-weight: normal;
+      }
+      .note-label .del {
+        position: absolute;
+        top: -9px;
+        right: -9px;
+        width: 16px;
+        height: 16px;
+        border-radius: 50%;
+        background: #e94560;
+        color: #fff;
+        font-size: 10px;
+        line-height: 16px;
+        text-align: center;
+        cursor: pointer;
+        display: none;
+        font-family: sans-serif;
+        font-weight: bold;
+      }
+      .note-label:hover .del {
+        display: block;
+      }
+      @media print {
+        .note-label {
+          border-color: transparent !important;
+          background: #fff !important;
+          box-shadow: none !important;
+          min-width: 24px;
+          height: 24px;
+          font-size: 10pt;
+        }
+        .note-label .oct {
+          font-size: 6.5pt;
+        }
+        .note-label .del {
+          display: none !important;
+        }
+      }
+      .piano {
+        display: flex;
+        justify-content: center;
+        position: relative;
+        user-select: none;
+        overflow-x: auto;
+        padding-bottom: 10px;
+        max-width: 100%;
+      }
+      .piano-inner {
+        display: flex;
+        position: relative;
+      }
+      .key {
+        border: 1px solid #000;
+        cursor: pointer;
+        display: flex;
+        align-items: flex-end;
+        justify-content: center;
+        padding-bottom: 4px;
+        font-size: 0.65rem;
+        transition: background 0.08s;
+      }
+      .white {
+        width: 34px;
+        height: 150px;
+        background: #fff;
+        color: #333;
+        border-radius: 0 0 4px 4px;
+      }
+      .white:active,
+      .white.active {
+        background: #ffd6dd;
+      }
+      .black {
+        width: 22px;
+        height: 95px;
+        background: #111;
+        color: #fff;
+        border-radius: 0 0 3px 3px;
+        position: absolute;
+        top: 0;
+        z-index: 2;
+        font-size: 0.55rem;
+      }
+      .black:active,
+      .black.active {
+        background: #e94560;
+      }
+      @media print {
+        html,
+        body {
+          background: #fff;
+          padding: 0;
+          margin: 0;
+          width: 210mm;
+        }
+        h1,
+        .controls,
+        .piano {
+          display: none;
+        }
+        .sheet {
+          box-shadow: none;
+          margin: 0;
+          width: 100%;
+          min-height: 0;
+          padding: 8mm 10mm;
+          gap: 9mm;
+        }
+        .staff-box {
+          page-break-inside: avoid;
+          break-inside: avoid;
+        }
+        .chord-label,
+        .note-label {
+          -webkit-print-color-adjust: exact;
+          print-color-adjust: exact;
+        }
+        @page {
+          size: A4;
+          margin: 10mm;
+        }
+      }
+      @media (max-width: 800px) {
+        .sheet {
+          width: 100%;
+          padding: 8px;
+        }
+      }
+
+      /* ===== Modal ===== */
+      .modal-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.55);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 1000;
+        padding: 16px;
+      }
+      .modal-box {
+        background: #fff;
+        color: #222;
+        border-radius: 10px;
+        width: 100%;
+        max-width: 420px;
+        max-height: 80vh;
+        overflow-y: auto;
+        padding: 18px;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+      }
+      .modal-box h3 {
+        margin-bottom: 12px;
+        font-size: 1.1rem;
+        color: #2a2a3e;
+      }
+      .modal-box input[type="text"] {
+        width: 100%;
+        padding: 8px 10px;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        font-size: 0.95rem;
+        margin-bottom: 12px;
+      }
+      .modal-actions {
+        display: flex;
+        gap: 8px;
+        justify-content: flex-end;
+        margin-top: 10px;
+      }
+      .modal-actions button {
+        font-size: 0.85rem;
+        padding: 7px 14px;
+      }
+      .modal-box .cancel-btn {
+        background: #999;
+      }
+      .modal-box .cancel-btn:hover {
+        background: #aaa;
+      }
+      .score-list {
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+      .score-list li {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+        border: 1px solid #e2e2e2;
+        border-radius: 8px;
+        padding: 8px 10px;
+      }
+      .score-list .score-info {
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+      }
+      .score-list .score-name {
+        font-weight: bold;
+        font-size: 0.95rem;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .score-list .score-date {
+        font-size: 0.75rem;
+        color: #777;
+      }
+      .score-list .score-actions {
+        display: flex;
+        gap: 6px;
+        flex-shrink: 0;
+      }
+      .score-list button {
+        padding: 5px 10px;
+        font-size: 0.8rem;
+      }
+      .score-list .del-score {
+        background: #999;
+      }
+      .score-list .del-score:hover {
+        background: #b33;
+      }
+      .empty-list {
+        color: #888;
+        text-align: center;
+        padding: 10px 0;
+      }
+      @media print {
+        .modal-overlay {
+          display: none !important;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <h1>🎹 Piano Digital — Partitura A4 (Cifras)</h1>
+    <div class="controls">
+      <button id="newScoreBtn">🆕 Nova Partitura</button>
+      <button id="saveScoreBtn">💾 Salvar Partitura</button>
+      <button id="listScoresBtn">📂 Partituras Salvas</button>
+      <button id="playBtn">▶ Play</button>
+      <button id="clearBtn" class="stop">🗑 Limpar</button>
+      <button id="addChordBtn">➕ Cifra</button>
+      <button id="printBtn" class="stop">🖨 Imprimir</button>
+    </div>
+    <div id="scoreNameBar" style="text-align:center;margin-bottom:10px;color:#bbb;font-size:0.85rem;">
+      Partitura sem nome
+    </div>
+    <div class="piano"><div class="piano-inner" id="piano"></div></div>
+
+    <div class="sheet" id="sheet">
+      <!-- <h2> Titulo: Ton:</h2> -->
+      <!-- 6 staves inserted by JS -->
+    </div>
+
+
+    <script>
+      /* ============ CONFIG ============ */
+      const STAVES = 6,
+        MEASURES_PER_STAFF = 4,
+        NOTES_PER_MEASURE = 4;
+      const NOTES_PER_STAFF = MEASURES_PER_STAFF * NOTES_PER_MEASURE; // 16
+      const TOTAL_SLOTS = STAVES * NOTES_PER_STAFF; // 96
+
+      const NOTES = [
+        "C",
+        "C#",
+        "D",
+        "D#",
+        "E",
+        "F",
+        "F#",
+        "G",
+        "G#",
+        "A",
+        "A#",
+        "B",
+      ];
+      const WHITE = ["C", "D", "E", "F", "G", "A", "B"];
+      const OCTAVES = [3, 4, 5];
+      const FREQ = {};
+      OCTAVES.concat([6]).forEach((o) =>
+        NOTES.forEach((n, i) => {
+          FREQ[n + o] = 440 * Math.pow(2, ((o + 1) * 12 + i - 69) / 12);
+        }),
+      );
+      const DIATONIC = { C: 0, D: 1, E: 2, F: 3, G: 4, A: 5, B: 6 };
+      const stepIndex = (l, o) => (o - 4) * 7 + (DIATONIC[l] - DIATONIC.E); // E4=0
+
+      /* ============ PIANO SOUND (Yamaha-like additive + ADSR) ============ */
+      let audioCtx, masterGain;
+      function initAudio() {
+        if (audioCtx) return;
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        masterGain = audioCtx.createGain();
+        masterGain.gain.value = 0.7;
+        const lp = audioCtx.createBiquadFilter();
+        lp.type = "lowpass";
+        lp.frequency.value = 6000;
+        masterGain.connect(lp).connect(audioCtx.destination);
+      }
+      function playSound(note) {
+        initAudio();
+        const f = FREQ[note];
+        if (!f) return;
+        const t = audioCtx.currentTime;
+        // Harmonic series with piano-like weights
+        const harmonics = [
+          { m: 1, a: 1.0, t: "sine" },
+          { m: 2, a: 0.55, t: "sine" },
+          { m: 3, a: 0.3, t: "sine" },
+          { m: 4, a: 0.18, t: "triangle" },
+          { m: 5, a: 0.1, t: "sine" },
+          { m: 6, a: 0.06, t: "sine" },
+        ];
+        const noteGain = audioCtx.createGain();
+        // ADSR: fast attack, quick early decay, long release (piano)
+        const peak = 0.35,
+          sustain = 0.1,
+          dur = 1.6;
+        noteGain.gain.setValueAtTime(0, t);
+        noteGain.gain.linearRampToValueAtTime(peak, t + 0.005);
+        noteGain.gain.exponentialRampToValueAtTime(sustain, t + 0.25);
+        noteGain.gain.exponentialRampToValueAtTime(0.001, t + dur);
+        noteGain.connect(masterGain);
+        harmonics.forEach((h) => {
+          const o = audioCtx.createOscillator();
+          o.type = h.t;
+          o.frequency.value = f * h.m;
+          // slight detune for warmth
+          o.detune.value = (Math.random() - 0.5) * 4;
+          const g = audioCtx.createGain();
+          g.gain.value = h.a;
+          o.connect(g).connect(noteGain);
+          o.start(t);
+          o.stop(t + dur + 0.1);
+        });
+        // subtle attack "thump" (hammer)
+        const thump = audioCtx.createOscillator();
+        const tg = audioCtx.createGain();
+        thump.type = "sine";
+        thump.frequency.value = f * 0.5;
+        tg.gain.setValueAtTime(0.15, t);
+        tg.gain.exponentialRampToValueAtTime(0.001, t + 0.08);
+        thump.connect(tg).connect(masterGain);
+        thump.start(t);
+        thump.stop(t + 0.1);
+      }
+
+      /* ============ PIANO KEYBOARD UI ============ */
+      const piano = document.getElementById("piano");
+      const whiteKeys = [];
+      OCTAVES.forEach((oct) =>
+        WHITE.forEach((n) => {
+          const el = document.createElement("div");
+          el.className = "key white";
+          el.dataset.note = n + oct;
+          el.textContent = n + oct;
+          el.addEventListener("mousedown", () => addNote(n + oct));
+          el.addEventListener("touchstart", (e) => {
+            e.preventDefault();
+            addNote(n + oct);
+          });
+          piano.appendChild(el);
+          whiteKeys.push(el);
+        }),
+      );
+      const blackPattern = [1, 1, 0, 1, 1, 1, 0];
+      requestAnimationFrame(() => {
+        const wW = whiteKeys[0].offsetWidth,
+          bW = wW * 0.65;
+        let idx = 0;
+        OCTAVES.forEach((oct) =>
+          WHITE.forEach((n, i) => {
+            if (blackPattern[i]) {
+              const bn = n + "#" + oct;
+              const el = document.createElement("div");
+              el.className = "key black";
+              el.dataset.note = bn;
+              el.style.left = idx * wW + wW - bW / 2 + "px";
+              el.style.width = bW + "px";
+              el.textContent = bn;
+              el.addEventListener("mousedown", (ev) => {
+                ev.stopPropagation();
+                addNote(bn);
+              });
+              el.addEventListener("touchstart", (ev) => {
+                ev.preventDefault();
+                ev.stopPropagation();
+                addNote(bn);
+              });
+              piano.appendChild(el);
+            }
+            idx++;
+          }),
+        );
+      });
+
+      /* ============ SEQUENCE + STAVES ============ */
+      const sequence = []; // {letter, acc, oct, full, text, dx, dy}
+      function addNote(full) {
+        if (sequence.length >= TOTAL_SLOTS) {
+          sequence.shift();
+        } // rolling
+        playSound(full);
+        const m = full.match(/^([A-G])(#?)(\d)$/);
+        if (!m) return;
+        sequence.push({
+          letter: m[1],
+          acc: m[2],
+          oct: +m[3],
+          full,
+          text: m[1] + m[2],
+          dx: 0,
+          dy: 0,
+        });
+        drawAllStaves();
+        flashKey(full);
+      }
+      function flashKey(full) {
+        const k = document.querySelector(`[data-note="${full}"]`);
+        if (k) {
+          k.classList.add("active");
+          setTimeout(() => k.classList.remove("active"), 180);
+        }
+      }
+
+      /* ============ RENDER STAVES ============ */
+      const svgNS = "http://www.w3.org/2000/svg";
+      const sheet = document.getElementById("sheet");
+      const staffBoxes = [];
+      for (let s = 0; s < STAVES; s++) {
+        const box = document.createElement("div");
+        box.className = "staff-box";
+        const svg = document.createElementNS(svgNS, "svg");
+        svg.setAttribute("viewBox", "0 0 1000 220");
+        svg.setAttribute("preserveAspectRatio", "xMidYMid meet");
+        box.appendChild(svg);
+        sheet.appendChild(box);
+        staffBoxes.push(svg);
+      }
+
+      // Increased line gap for readability
+      const LINE_GAP = 20,
+        STAFF_TOP = 60,
+        LEFT = 70,
+        NOTE_START = 120;
+      let highlightIdx = -1;
+
+      function drawStaff(svg, staffIdx) {
+        svg.innerHTML = "";
+        const box = svg.parentNode;
+        // clear old html note labels
+        box.querySelectorAll(".note-label").forEach((l) => l.remove());
+        const W = 1000;
+        const usable = W - NOTE_START - 30;
+        const noteSpacing = usable / NOTES_PER_STAFF;
+        // 5 lines
+        for (let i = 0; i < 5; i++) {
+          const y = STAFF_TOP + i * LINE_GAP;
+          const l = document.createElementNS(svgNS, "line");
+          l.setAttribute("x1", LEFT);
+          l.setAttribute("x2", W - 20);
+          l.setAttribute("y1", y);
+          l.setAttribute("y2", y);
+          l.setAttribute("stroke", "#000");
+          l.setAttribute("stroke-width", "1");
+          svg.appendChild(l);
+        }
+        // Treble clef
+        const clef = document.createElementNS(svgNS, "text");
+        clef.setAttribute("x", LEFT + 5);
+        clef.setAttribute("y", STAFF_TOP + 4 * LINE_GAP + 8);
+        clef.setAttribute("font-size", "72");
+        clef.setAttribute("font-family", "serif");
+        clef.textContent = "𝄞";
+        svg.appendChild(clef);
+        // Staff number
+        const num = document.createElementNS(svgNS, "text");
+        num.setAttribute("x", 5);
+        num.setAttribute("y", STAFF_TOP - 8);
+        num.setAttribute("font-size", "12");
+        num.setAttribute("fill", "#888");
+        num.textContent = `${staffIdx + 1}`;
+        svg.appendChild(num);
+        // Bar lines
+        for (let m = 1; m <= MEASURES_PER_STAFF; m++) {
+          const x =
+            NOTE_START + m * NOTES_PER_MEASURE * noteSpacing - noteSpacing / 2;
+          const bl = document.createElementNS(svgNS, "line");
+          bl.setAttribute("x1", x);
+          bl.setAttribute("x2", x);
+          bl.setAttribute("y1", STAFF_TOP);
+          bl.setAttribute("y2", STAFF_TOP + 4 * LINE_GAP);
+          bl.setAttribute("stroke", "#000");
+          bl.setAttribute(
+            "stroke-width",
+            m === MEASURES_PER_STAFF ? "2.5" : "1",
+          );
+          svg.appendChild(bl);
+        }
+        // Notes in this staff
+        const start = staffIdx * NOTES_PER_STAFF;
+        for (let j = 0; j < NOTES_PER_STAFF; j++) {
+          const globalIdx = start + j;
+          const n = sequence[globalIdx];
+          if (!n) continue;
+          const x = NOTE_START + j * noteSpacing + noteSpacing / 2;
+          const step = stepIndex(n.letter, n.oct);
+          const y = STAFF_TOP + 4 * LINE_GAP - step * (LINE_GAP / 2);
+          // ledger lines
+          if (step < 0) {
+            for (let s = -2; s >= step; s -= 2) {
+              const ly = STAFF_TOP + 4 * LINE_GAP - s * (LINE_GAP / 2);
+              const ll = document.createElementNS(svgNS, "line");
+              ll.setAttribute("x1", x - 14);
+              ll.setAttribute("x2", x + 14);
+              ll.setAttribute("y1", ly);
+              ll.setAttribute("y2", ly);
+              ll.setAttribute("stroke", "#000");
+              svg.appendChild(ll);
+            }
+          } else if (step > 8) {
+            for (let s = 10; s <= step; s += 2) {
+              const ly = STAFF_TOP + 4 * LINE_GAP - s * (LINE_GAP / 2);
+              const ll = document.createElementNS(svgNS, "line");
+              ll.setAttribute("x1", x - 14);
+              ll.setAttribute("x2", x + 14);
+              ll.setAttribute("y1", ly);
+              ll.setAttribute("y2", ly);
+              ll.setAttribute("stroke", "#000");
+              svg.appendChild(ll);
+            }
+          }
+          // Cifra como elemento HTML (arrastável, editável, selecionável)
+          createNoteLabel(box, globalIdx, x, y);
+        }
+      }
+      function drawAllStaves() {
+        staffBoxes.forEach((s, i) => drawStaff(s, i));
+      }
+      drawAllStaves();
+
+      /* ============ NOTE LABELS (draggable + editable cifras geradas) ============ */
+      function createNoteLabel(box, idx, baseX, baseY) {
+        const n = sequence[idx];
+        if (!n) return;
+        const el = document.createElement("div");
+        el.className = "note-label" + (idx === highlightIdx ? " playing" : "");
+        el.style.left = `calc(${baseX / 10}% + ${n.dx || 0}px)`;
+        el.style.top = `calc(${baseY / 2.2}% + ${n.dy || 0}px)`;
+        // conteúdo: texto + oitava
+        const txt = document.createElement("span");
+        txt.className = "txt";
+        txt.textContent = n.text;
+        const oct = document.createElement("span");
+        oct.className = "oct";
+        oct.textContent = n.oct;
+        el.appendChild(txt);
+        el.appendChild(oct);
+        // botão excluir
+        const del = document.createElement("span");
+        del.className = "del";
+        del.textContent = "×";
+        del.addEventListener("mousedown", (ev) => {
+          ev.stopPropagation();
+          ev.preventDefault();
+          sequence.splice(idx, 1);
+          drawAllStaves();
+        });
+        el.appendChild(del);
+
+        // Editar (dblclick)
+        el.addEventListener("dblclick", (ev) => {
+          ev.stopPropagation();
+          el.classList.add("editing");
+          txt.contentEditable = "true";
+          oct.style.display = "none";
+          del.style.display = "none";
+          txt.focus();
+          const r = document.createRange();
+          r.selectNodeContents(txt);
+          const s = window.getSelection();
+          s.removeAllRanges();
+          s.addRange(r);
+        });
+        txt.addEventListener("blur", () => {
+          if (!el.classList.contains("editing")) return;
+          el.classList.remove("editing");
+          txt.contentEditable = "false";
+          oct.style.display = "";
+          del.style.display = "";
+          const v = (txt.textContent || "").trim();
+          n.text = v || n.letter + n.acc;
+          txt.textContent = n.text;
+        });
+        txt.addEventListener("keydown", (ev) => {
+          if (ev.key === "Enter") {
+            ev.preventDefault();
+            txt.blur();
+          }
+          if (ev.key === "Escape") txt.blur();
+          ev.stopPropagation();
+        });
+
+        // Arrastar
+        let dragging = false,
+          sx = 0,
+          sy = 0,
+          ox = n.dx || 0,
+          oy = n.dy || 0,
+          moved = false;
+        const onDown = (cx, cy) => {
+          if (el.classList.contains("editing")) return false;
+          dragging = true;
+          moved = false;
+          sx = cx;
+          sy = cy;
+          ox = n.dx || 0;
+          oy = n.dy || 0;
+          return true;
+        };
+        el.addEventListener("mousedown", (ev) => {
+          if (ev.target === del) return;
+          if (onDown(ev.clientX, ev.clientY)) ev.preventDefault();
+        });
+        el.addEventListener(
+          "touchstart",
+          (ev) => {
+            const t = ev.touches[0];
+            onDown(t.clientX, t.clientY);
+          },
+          { passive: true },
+        );
+        const onMove = (cx, cy) => {
+          if (!dragging) return;
+          const ndx = ox + (cx - sx),
+            ndy = oy + (cy - sy);
+          if (Math.abs(cx - sx) + Math.abs(cy - sy) > 2) moved = true;
+          n.dx = ndx;
+          n.dy = ndy;
+          el.style.left = `calc(${baseX / 10}% + ${ndx}px)`;
+          el.style.top = `calc(${baseY / 2.2}% + ${ndy}px)`;
+        };
+        document.addEventListener("mousemove", (ev) =>
+          onMove(ev.clientX, ev.clientY),
+        );
+        document.addEventListener("touchmove", (ev) => {
+          const t = ev.touches[0];
+          if (t) onMove(t.clientX, t.clientY);
+        });
+        document.addEventListener("mouseup", () => {
+          dragging = false;
+        });
+        document.addEventListener("touchend", () => {
+          dragging = false;
+        });
+
+        box.appendChild(el);
+      }
+
+      /* ============ PLAYBACK ============ */
+      let playing = false,
+        playTimer = null;
+      const playBtn = document.getElementById("playBtn");
+      playBtn.addEventListener("click", () => {
+        if (playing) {
+          stopPlay();
+          return;
+        }
+        if (sequence.length === 0) return;
+        initAudio();
+        playing = true;
+        playBtn.textContent = "⏸ Stop";
+        playBtn.classList.add("stop");
+        let i = 0;
+        const tick = () => {
+          if (!playing) return;
+          highlightIdx = i % sequence.length;
+          const n = sequence[highlightIdx];
+          playSound(n.full);
+          flashKey(n.full);
+          drawAllStaves();
+          i++;
+          playTimer = setTimeout(tick, 500);
+        };
+        tick();
+      });
+      function stopPlay() {
+        playing = false;
+        clearTimeout(playTimer);
+        highlightIdx = -1;
+        playBtn.textContent = "▶ Play";
+        playBtn.classList.remove("stop");
+        drawAllStaves();
+      }
+      document.getElementById("clearBtn").addEventListener("click", () => {
+        stopPlay();
+        sequence.length = 0;
+        drawAllStaves();
+      });
+      document
+        .getElementById("printBtn")
+        .addEventListener("click", () => window.print());
+
+      /* Keyboard */
+      const KEYMAP = {
+        z: "C4",
+        s: "C#4",
+        x: "D4",
+        d: "D#4",
+        c: "E4",
+        v: "F4",
+        g: "F#4",
+        b: "G4",
+        h: "G#4",
+        n: "A4",
+        j: "A#4",
+        m: "B4",
+        q: "C5",
+        2: "C#5",
+        w: "D5",
+        3: "D#5",
+        e: "E5",
+        r: "F5",
+        5: "F#5",
+        t: "G5",
+        6: "G#5",
+        y: "A5",
+        7: "A#5",
+        u: "B5",
+      };
+      document.addEventListener("keydown", (ev) => {
+        const n = KEYMAP[ev.key.toLowerCase()];
+        if (
+          document.activeElement &&
+          document.activeElement.classList &&
+          document.activeElement.classList.contains("chord-label")
+        )
+          return;
+        if (n) {
+          ev.preventDefault();
+          addNote(n);
+        }
+      });
+
+      /* ============ CHORD LABELS (draggable, editable) ============ */
+      /* Suporta cifras livres: C, C#, Db, D°, E+, F-, G7, A/C#, E4, Bbmaj7, etc. */
+      const chordLabels = []; // {text, x, y, el} — estado rastreável p/ salvar/carregar
+      function createChordLabel(text, x, y) {
+        const el = document.createElement("div");
+        el.className = "chord-label";
+        el.contentEditable = "false";
+        el.spellcheck = false;
+        el.textContent = text || "C";
+        el.style.left = (x || 40) + "px";
+        el.style.top = (y || 40) + "px";
+
+        const record = { text: text || "C", x: x || 40, y: y || 40, el };
+        chordLabels.push(record);
+
+        const del = document.createElement("span");
+        del.className = "del";
+        del.textContent = "×";
+        del.addEventListener("mousedown", (ev) => {
+          ev.stopPropagation();
+          ev.preventDefault();
+          el.remove();
+          const i = chordLabels.indexOf(record);
+          if (i > -1) chordLabels.splice(i, 1);
+        });
+        el.appendChild(del);
+
+        // Double click to edit
+        el.addEventListener("dblclick", (ev) => {
+          ev.stopPropagation();
+          el.classList.add("editing");
+          el.contentEditable = "true";
+          // remove del from editable range temporarily
+          del.remove();
+          el.focus();
+          document.execCommand("selectAll", false, null);
+        });
+        el.addEventListener("blur", () => {
+          if (el.classList.contains("editing")) {
+            el.classList.remove("editing");
+            el.contentEditable = "false";
+            if (!el.textContent.trim()) el.textContent = "?";
+            record.text = el.textContent.trim();
+            el.appendChild(del);
+          }
+        });
+        el.addEventListener("keydown", (ev) => {
+          if (ev.key === "Enter") {
+            ev.preventDefault();
+            el.blur();
+          }
+          if (ev.key === "Escape") el.blur();
+          ev.stopPropagation();
+        });
+
+        // Drag
+        let dragging = false,
+          sx = 0,
+          sy = 0,
+          ox = 0,
+          oy = 0;
+        el.addEventListener("mousedown", (ev) => {
+          if (el.classList.contains("editing")) return;
+          if (ev.target === del) return;
+          dragging = true;
+          sx = ev.clientX;
+          sy = ev.clientY;
+          ox = parseFloat(el.style.left);
+          oy = parseFloat(el.style.top);
+          ev.preventDefault();
+        });
+        el.addEventListener(
+          "touchstart",
+          (ev) => {
+            if (el.classList.contains("editing")) return;
+            const t = ev.touches[0];
+            dragging = true;
+            sx = t.clientX;
+            sy = t.clientY;
+            ox = parseFloat(el.style.left);
+            oy = parseFloat(el.style.top);
+          },
+          { passive: true },
+        );
+        document.addEventListener("mousemove", (ev) => {
+          if (!dragging) return;
+          record.x = ox + ev.clientX - sx;
+          record.y = oy + ev.clientY - sy;
+          el.style.left = record.x + "px";
+          el.style.top = record.y + "px";
+        });
+        document.addEventListener("touchmove", (ev) => {
+          if (!dragging) return;
+          const t = ev.touches[0];
+          record.x = ox + t.clientX - sx;
+          record.y = oy + t.clientY - sy;
+          el.style.left = record.x + "px";
+          el.style.top = record.y + "px";
+        });
+        document.addEventListener("mouseup", () => (dragging = false));
+        document.addEventListener("touchend", () => (dragging = false));
+
+        sheet.appendChild(el);
+        return el;
+      }
+      document.getElementById("addChordBtn").addEventListener("click", () => {
+        // Cria a cifra já em modo de edição (prompt() é bloqueado em iframes)
+        const el = createChordLabel("C", 40, 40);
+        // dispara o modo edição
+        const ev = new MouseEvent("dblclick", { bubbles: true });
+        el.dispatchEvent(ev);
+      });
+
+      /* ============ MODAL HELPER ============ */
+      function openModal(innerHTML) {
+        closeModal();
+        const overlay = document.createElement("div");
+        overlay.className = "modal-overlay";
+        overlay.id = "activeModal";
+        overlay.innerHTML = `<div class="modal-box">${innerHTML}</div>`;
+        overlay.addEventListener("mousedown", (ev) => {
+          if (ev.target === overlay) closeModal();
+        });
+        document.body.appendChild(overlay);
+        return overlay;
+      }
+      function closeModal() {
+        const m = document.getElementById("activeModal");
+        if (m) m.remove();
+      }
+
+      /* ============ SALVAR / CARREGAR / LISTAR PARTITURAS ============ */
+      const STORAGE_KEY = "piano_partituras_v1";
+      let currentScoreName = null;
+
+      function loadAllScores() {
+        try {
+          return JSON.parse(localStorage.getItem(STORAGE_KEY)) || {};
+        } catch (e) {
+          return {};
+        }
+      }
+      function saveAllScores(data) {
+        try {
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+          return true;
+        } catch (e) {
+          alert("Não foi possível salvar (armazenamento do navegador indisponível).");
+          return false;
+        }
+      }
+      function updateScoreNameBar() {
+        const bar = document.getElementById("scoreNameBar");
+        bar.textContent = currentScoreName
+          ? `Partitura: ${currentScoreName}`
+          : "Partitura sem nome";
+      }
+
+      function collectScoreData(name) {
+        return {
+          name,
+          savedAt: Date.now(),
+          sequence: sequence.map((n) => ({
+            letter: n.letter,
+            acc: n.acc,
+            oct: n.oct,
+            full: n.full,
+            text: n.text,
+            dx: n.dx || 0,
+            dy: n.dy || 0,
+          })),
+          chords: chordLabels.map((c) => ({ text: c.text, x: c.x, y: c.y })),
+        };
+      }
+
+      function applyScoreData(data) {
+        stopPlay();
+        sequence.length = 0;
+        (data.sequence || []).forEach((n) => sequence.push({ ...n }));
+        chordLabels.slice().forEach((c) => c.el.remove());
+        chordLabels.length = 0;
+        (data.chords || []).forEach((c) => createChordLabel(c.text, c.x, c.y));
+        drawAllStaves();
+        currentScoreName = data.name || null;
+        updateScoreNameBar();
+      }
+
+      function doSaveScore(name) {
+        const trimmed = (name || "").trim();
+        if (!trimmed) return;
+        const all = loadAllScores();
+        all[trimmed] = collectScoreData(trimmed);
+        if (saveAllScores(all)) {
+          currentScoreName = trimmed;
+          updateScoreNameBar();
+          closeModal();
+        }
+      }
+
+      document.getElementById("saveScoreBtn").addEventListener("click", () => {
+        const overlay = openModal(`
+          <h3>💾 Salvar Partitura</h3>
+          <input type="text" id="scoreNameInput" placeholder="Nome da partitura" maxlength="60" />
+          <div id="scoreSaveWarning" style="color:#b33;font-size:0.8rem;margin:-6px 0 10px;display:none;">
+            Já existe uma partitura com esse nome. Salvar novamente irá substituí-la.
+          </div>
+          <div class="modal-actions">
+            <button type="button" class="cancel-btn" id="cancelSave">Cancelar</button>
+            <button type="button" id="confirmSave">Salvar</button>
+          </div>
+        `);
+        const input = overlay.querySelector("#scoreNameInput");
+        const warning = overlay.querySelector("#scoreSaveWarning");
+        input.value = currentScoreName || "";
+        input.focus();
+        input.select();
+        input.addEventListener("input", () => {
+          const all = loadAllScores();
+          warning.style.display = all[input.value.trim()] ? "block" : "none";
+        });
+        input.dispatchEvent(new Event("input"));
+        input.addEventListener("keydown", (ev) => {
+          if (ev.key === "Enter") {
+            ev.preventDefault();
+            doSaveScore(input.value);
+          }
+          if (ev.key === "Escape") closeModal();
+        });
+        overlay.querySelector("#cancelSave").addEventListener("click", closeModal);
+        overlay
+          .querySelector("#confirmSave")
+          .addEventListener("click", () => doSaveScore(input.value));
+      });
+
+      function renderScoreList(overlay) {
+        const listEl = overlay.querySelector("#scoreListEl");
+        const all = loadAllScores();
+        const names = Object.keys(all).sort((a, b) =>
+          (all[b].savedAt || 0) - (all[a].savedAt || 0)
+        );
+        if (names.length === 0) {
+          listEl.innerHTML = `<div class="empty-list">Nenhuma partitura salva ainda.</div>`;
+          return;
+        }
+        listEl.innerHTML = "";
+        names.forEach((name) => {
+          const item = all[name];
+          const dateStr = item.savedAt
+            ? new Date(item.savedAt).toLocaleString("pt-BR")
+            : "";
+          const li = document.createElement("li");
+          li.innerHTML = `
+            <div class="score-info">
+              <span class="score-name"></span>
+              <span class="score-date"></span>
+            </div>
+            <div class="score-actions">
+              <button type="button" class="load-score">Abrir</button>
+              <button type="button" class="del-score">Excluir</button>
+            </div>
+          `;
+          li.querySelector(".score-name").textContent = name;
+          li.querySelector(".score-date").textContent = dateStr;
+          li.querySelector(".load-score").addEventListener("click", () => {
+            applyScoreData(item);
+            closeModal();
+          });
+          li.querySelector(".del-score").addEventListener("click", () => {
+            const allNow = loadAllScores();
+            delete allNow[name];
+            saveAllScores(allNow);
+            if (currentScoreName === name) {
+              currentScoreName = null;
+              updateScoreNameBar();
+            }
+            renderScoreList(overlay);
+          });
+          listEl.appendChild(li);
+        });
+      }
+
+      document.getElementById("listScoresBtn").addEventListener("click", () => {
+        const overlay = openModal(`
+          <h3>📂 Partituras Salvas</h3>
+          <ul class="score-list" id="scoreListEl"></ul>
+          <div class="modal-actions">
+            <button type="button" class="cancel-btn" id="closeList">Fechar</button>
+          </div>
+        `);
+        renderScoreList(overlay);
+        overlay.querySelector("#closeList").addEventListener("click", closeModal);
+      });
+
+      document.getElementById("newScoreBtn").addEventListener("click", () => {
+        const hasContent = sequence.length > 0 || chordLabels.length > 0;
+        if (!hasContent) {
+          applyScoreData({ name: null, sequence: [], chords: [] });
+          return;
+        }
+        const overlay = openModal(`
+          <h3>🆕 Nova Partitura</h3>
+          <p style="margin-bottom:14px;color:#444;">
+            Isso vai limpar a partitura atual da tela. Se ainda não salvou, as
+            alterações serão perdidas. Deseja continuar?
+          </p>
+          <div class="modal-actions">
+            <button type="button" class="cancel-btn" id="cancelNew">Cancelar</button>
+            <button type="button" id="confirmNew">Criar Nova</button>
+          </div>
+        `);
+        overlay.querySelector("#cancelNew").addEventListener("click", closeModal);
+        overlay.querySelector("#confirmNew").addEventListener("click", () => {
+          applyScoreData({ name: null, sequence: [], chords: [] });
+          closeModal();
+        });
+      });
+
+      updateScoreNameBar();
+    </script>
+  </body>
+</html>
