@@ -8,18 +8,28 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
     />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 
     <title>Eletrônico Apocalipse</title>
 
     <style>
-      @import url("https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700&family=Oswald:wght@500;600;700&display=swap");
+      @import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Source+Sans+3:wght@400;500;600&display=swap");
 
       :root {
-        --bg: #050505;
-        --cyan: #00fff7;
-        --yellow: #e7f317;
-        --card: rgba(15, 15, 15, 0.85);
-        --max-width: 1200px;
+        --navy-900: #0b1020;
+        --navy-800: #151b3d;
+        --navy-700: #1e2753;
+        --navy-600: #2a3468;
+        --gold: #c9a45c;
+        --gold-soft: #e0c88f;
+        --ivory: #f4efe4;
+        --muted: #a9b4c4;
+        --line: rgba(201, 164, 92, 0.28);
+        --radius: 10px;
+        --max-width: 1140px;
+        --font-title: "Cormorant Garamond", Georgia, serif;
+        --font-body: "Source Sans 3", "Segoe UI", Arial, sans-serif;
       }
 
       * {
@@ -47,32 +57,42 @@
       }
 
       body {
-        font-family: "Merriweather", serif;
-        color: #f2f2f2;
-        background-image: url("a991c83d-f967-4f3d-9f9f-d5695664a749.png");
+        font-family: var(--font-body);
+        font-size: 1.05rem;
+        color: var(--ivory);
+        background-image:
+          linear-gradient(
+            135deg,
+            rgba(12, 14, 46, 0.94) 0%,
+            rgba(38, 24, 98, 0.9) 45%,
+            rgba(8, 82, 98, 0.92) 100%
+          ),
+          url("a991c83d-f967-4f3d-9f9f-d5695664a749.png");
         background-size: cover;
         background-position: center;
         background-attachment: fixed;
         background-repeat: no-repeat;
-        background-color: var(--bg);
-        line-height: 1.6;
+        background-color: var(--navy-900);
+        line-height: 1.7;
         overflow-x: hidden;
+        -webkit-font-smoothing: antialiased;
       }
 
       a:focus-visible,
       button:focus-visible,
       input:focus-visible,
       textarea:focus-visible {
-        outline: 2px solid var(--yellow);
+        outline: 2px solid var(--gold-soft);
         outline-offset: 3px;
       }
 
       /* HEADER */
 
       header {
-        background: rgba(0, 0, 0, 0.92);
-        backdrop-filter: blur(6px);
-        box-shadow: 0 0 20px rgba(0, 255, 247, 0.6);
+        background: rgba(11, 16, 32, 0.94);
+        backdrop-filter: blur(10px);
+        border-bottom: 1px solid var(--line);
+        box-shadow: 0 6px 24px rgba(0, 0, 0, 0.35);
 
         display: flex;
         align-items: center;
@@ -92,15 +112,14 @@
       }
 
       .img-logo {
-        width: clamp(70px, 8vw, 110px);
-        border-radius: 10px;
-        transition: 0.4s;
+        width: clamp(64px, 7vw, 92px);
+        border-radius: 8px;
+        transition: transform 0.3s ease;
         display: block;
       }
 
       .img-logo:hover {
-        transform: scale(1.05);
-        box-shadow: 0 0 15px var(--cyan);
+        transform: scale(1.04);
       }
 
       /* MENU */
@@ -109,32 +128,34 @@
         flex: 1;
         display: flex;
         justify-content: center;
-        gap: clamp(14px, 3vw, 30px);
+        gap: clamp(14px, 3vw, 34px);
         flex-wrap: wrap;
       }
 
       nav a {
-        color: #fff;
+        color: var(--ivory);
         text-decoration: none;
-        font-family: "Oswald", sans-serif;
-        font-size: 0.95rem;
-        letter-spacing: 0.03em;
-        text-transform: uppercase;
-        text-shadow: 0 0 8px var(--cyan);
-        transition: 0.3s;
+        font-family: var(--font-body);
+        font-weight: 500;
+        font-size: 0.98rem;
+        letter-spacing: 0.02em;
         padding: 6px 2px;
+        border-bottom: 2px solid transparent;
+        transition:
+          color 0.25s ease,
+          border-color 0.25s ease;
       }
 
       nav a:hover,
       nav a:focus-visible {
-        color: var(--yellow);
-        text-shadow: 0 0 15px var(--yellow);
+        color: var(--gold-soft);
+        border-bottom-color: var(--gold);
       }
 
       .menu-btn {
         display: none;
-        font-size: 25px;
-        color: white;
+        font-size: 24px;
+        color: var(--ivory);
         cursor: pointer;
         background: none;
         border: none;
@@ -146,29 +167,44 @@
         display: flex;
         align-items: center;
         gap: 8px;
-        font-family: "Oswald", sans-serif;
-        font-size: 0.85rem;
-        color: var(--cyan);
+        font-size: 0.88rem;
+        color: var(--muted);
         white-space: nowrap;
-        text-shadow: 0 0 8px rgba(0, 255, 247, 0.6);
+        padding: 6px 12px;
+        border: 1px solid var(--line);
+        border-radius: 999px;
       }
 
       .view-counter i {
+        color: var(--gold);
         font-size: 0.9rem;
+      }
+
+      .view-counter strong {
+        color: var(--ivory);
+        font-weight: 600;
       }
 
       /* TITULOS */
 
       .section-title {
-        color: var(--cyan);
-        font-family: "Oswald", sans-serif;
-        font-weight: 600;
-        letter-spacing: 0.04em;
-        text-transform: uppercase;
-        font-size: clamp(1.5rem, 4vw, 2.2rem);
+        color: var(--ivory);
+        font-family: var(--font-title);
+        font-weight: 700;
+        letter-spacing: 0.01em;
+        font-size: clamp(2rem, 4.5vw, 2.9rem);
+        line-height: 1.15;
         text-align: center;
-        margin: 60px 0 40px;
-        text-shadow: 0 0 10px var(--cyan);
+        margin: 80px 0 44px;
+      }
+
+      .section-title::after {
+        content: "";
+        display: block;
+        width: 64px;
+        height: 2px;
+        background: var(--gold);
+        margin: 16px auto 0;
       }
 
       /* SEÇÕES */
@@ -178,7 +214,7 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        gap: clamp(24px, 5vw, 60px);
+        gap: clamp(28px, 5vw, 64px);
         flex-wrap: wrap;
         padding: 20px clamp(16px, 5vw, 40px);
         max-width: var(--max-width);
@@ -187,27 +223,44 @@
 
       .quem-somos div,
       .componentes-wrap > div:first-child {
-        max-width: 500px;
+        max-width: 520px;
         flex: 1 1 320px;
+      }
+
+      .quem-somos p {
+        font-family: var(--font-title);
+        font-size: clamp(1.35rem, 2.4vw, 1.7rem);
+        line-height: 1.55;
+        font-weight: 500;
+        color: var(--ivory);
+        border-left: 3px solid var(--gold);
+        padding-left: 22px;
+      }
+
+      .quem-somos p strong {
+        color: var(--gold-soft);
+        font-weight: 700;
       }
 
       .quem-somos img,
       .componentes-wrap img {
-        width: 420px;
+        width: 440px;
         max-width: 100%;
-        border-radius: 15px;
-        box-shadow: 0 0 20px rgba(0, 255, 247, 0.4);
-        transition: 0.5s;
+        border-radius: var(--radius);
+        border: 1px solid var(--line);
+        padding: 8px;
+        background: var(--navy-800);
+        box-shadow: 0 18px 40px rgba(0, 0, 0, 0.5);
         flex: 1 1 320px;
+        transition: transform 0.4s ease;
       }
 
       .quem-somos img:hover,
       .componentes-wrap img:hover {
-        transform: scale(1.05);
-        box-shadow: 0 0 30px var(--cyan);
+        transform: translateY(-4px);
       }
 
-      /* CARD COMPONENTES */
+      /* COMPONENTES */
 
       .componentes {
         max-width: var(--max-width);
@@ -216,15 +269,28 @@
       }
 
       .componentes-wrap {
-        background: var(--card);
-        border: 2px solid var(--cyan);
-        border-radius: 20px;
-        padding: clamp(20px, 4vw, 40px);
-        box-shadow: 0 0 25px rgba(0, 255, 247, 0.5);
+        background: var(--navy-800);
+        border: 1px solid var(--line);
+        border-top: 3px solid var(--gold);
+        border-radius: var(--radius);
+        padding: clamp(24px, 4vw, 44px);
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.45);
       }
 
       .componentes-wrap p {
-        margin-bottom: 6px;
+        padding: 9px 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+        color: var(--muted);
+      }
+
+      .componentes-wrap p:last-child {
+        border-bottom: none;
+      }
+
+      .componentes-wrap p strong {
+        color: var(--gold-soft);
+        font-weight: 600;
+        margin-right: 4px;
       }
 
       /* CARROSSEL */
@@ -237,20 +303,23 @@
 
       .gallery-intro {
         text-align: center;
-        margin-bottom: 30px;
+        margin-bottom: 32px;
       }
 
       .gallery-intro h3 {
-        font-family: "Oswald", sans-serif;
-        color: var(--yellow);
-        font-size: clamp(1.1rem, 2.5vw, 1.4rem);
-        margin-bottom: 10px;
+        font-family: var(--font-title);
+        color: var(--gold-soft);
+        font-weight: 700;
+        font-size: clamp(1.5rem, 3vw, 2rem);
+        margin-bottom: 8px;
       }
 
       .gallery-intro p {
+        font-family: var(--font-title);
         font-style: italic;
-        color: #ddd;
-        max-width: 700px;
+        font-size: clamp(1.1rem, 2vw, 1.3rem);
+        color: var(--muted);
+        max-width: 680px;
         margin: 0 auto;
       }
 
@@ -259,11 +328,11 @@
         width: 100%;
         max-width: 900px;
         margin: 0 auto;
-        border-radius: 20px;
+        border-radius: var(--radius);
         overflow: hidden;
-        box-shadow: 0 0 30px rgba(0, 255, 247, 0.4);
-        border: 2px solid rgba(0, 255, 247, 0.5);
-        background: #000;
+        border: 1px solid var(--line);
+        box-shadow: 0 24px 60px rgba(0, 0, 0, 0.55);
+        background: var(--navy-900);
       }
 
       .carousel-track-wrap {
@@ -276,7 +345,7 @@
       .carousel-track {
         display: flex;
         height: 100%;
-        transition: transform 0.5s ease;
+        transition: transform 0.6s cubic-bezier(0.45, 0, 0.2, 1);
       }
 
       .carousel-slide {
@@ -295,25 +364,26 @@
         position: absolute;
         top: 50%;
         transform: translateY(-50%);
-        background: rgba(0, 0, 0, 0.55);
-        border: 2px solid var(--cyan);
-        color: var(--cyan);
+        background: rgba(11, 16, 32, 0.7);
+        border: 1px solid var(--gold);
+        color: var(--gold-soft);
         width: 44px;
         height: 44px;
         border-radius: 50%;
         cursor: pointer;
-        font-size: 1.1rem;
+        font-size: 1rem;
         display: flex;
         align-items: center;
         justify-content: center;
-        transition: 0.3s;
+        transition:
+          background 0.25s ease,
+          color 0.25s ease;
         z-index: 5;
       }
 
       .carousel-btn:hover {
-        background: var(--cyan);
-        color: #000;
-        box-shadow: 0 0 15px var(--cyan);
+        background: var(--gold);
+        color: var(--navy-900);
       }
 
       .carousel-btn.prev {
@@ -327,50 +397,47 @@
       .carousel-dots {
         display: flex;
         justify-content: center;
-        gap: 8px;
-        padding: 16px 0;
+        gap: 9px;
+        padding: 20px 0 0;
         flex-wrap: wrap;
       }
 
       .carousel-dots button {
-        width: 10px;
-        height: 10px;
+        width: 9px;
+        height: 9px;
         border-radius: 50%;
-        border: 1px solid var(--cyan);
+        border: 1px solid var(--gold);
         background: transparent;
         cursor: pointer;
         padding: 0;
-        transition: 0.3s;
+        transition:
+          background 0.25s ease,
+          transform 0.25s ease;
       }
 
       .carousel-dots button.active {
-        background: var(--cyan);
-        box-shadow: 0 0 10px var(--cyan);
+        background: var(--gold);
+        transform: scale(1.25);
       }
 
       .carousel-counter {
         position: absolute;
         bottom: 14px;
         right: 14px;
-        background: rgba(0, 0, 0, 0.6);
-        color: var(--cyan);
-        font-family: "Oswald", sans-serif;
-        font-size: 0.8rem;
-        padding: 4px 10px;
-        border-radius: 20px;
-        border: 1px solid rgba(0, 255, 247, 0.5);
+        background: rgba(11, 16, 32, 0.78);
+        color: var(--ivory);
+        font-size: 0.82rem;
+        padding: 4px 12px;
+        border-radius: 999px;
+        border: 1px solid var(--line);
         z-index: 5;
       }
 
-      /* AGENDA */
+      /* AGENDA (linha do tempo) */
 
       .agenda {
-        text-align: center;
-        padding: 50px clamp(16px, 4vw, 50px);
-        background: var(--card);
-        border-radius: 20px;
-        box-shadow: 0 0 30px rgba(0, 255, 247, 0.5);
-        max-width: 1000px;
+        padding: 10px clamp(16px, 4vw, 50px) 20px;
+        max-width: 860px;
         margin: 0 auto 80px;
       }
 
@@ -378,95 +445,165 @@
         list-style: none;
         display: flex;
         flex-direction: column;
-        gap: 25px;
+        gap: 22px;
+        position: relative;
+        padding-left: 34px;
+      }
+
+      .agenda ul::before {
+        content: "";
+        position: absolute;
+        left: 7px;
+        top: 6px;
+        bottom: 6px;
+        width: 2px;
+        background: var(--line);
       }
 
       .agenda li {
-        font-size: clamp(1rem, 2vw, 1.2rem);
-        background: #0f0f0f;
-        padding: 20px;
-        border-radius: 12px;
-        box-shadow: 0 0 15px rgba(0, 255, 247, 0.5);
-        transition: 0.3s;
+        position: relative;
+        font-size: 1.02rem;
+        background: var(--navy-800);
+        padding: 20px 24px;
+        border-radius: var(--radius);
+        border: 1px solid rgba(255, 255, 255, 0.06);
+        color: var(--muted);
+        transition:
+          border-color 0.3s ease,
+          background 0.3s ease;
         text-align: left;
       }
 
+      .agenda li::before {
+        content: "";
+        position: absolute;
+        left: -34px;
+        top: 26px;
+        width: 16px;
+        height: 16px;
+        border-radius: 50%;
+        background: var(--navy-900);
+        border: 2px solid var(--gold);
+      }
+
       .agenda li:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 0 25px var(--yellow);
-      }
-
-      .agenda li ul {
-        margin-top: 14px;
-        gap: 14px;
-      }
-
-      .agenda li li {
-        box-shadow: 0 0 10px rgba(0, 255, 247, 0.3);
+        border-color: var(--line);
+        background: var(--navy-700);
       }
 
       .agenda span {
         display: block;
-        color: var(--yellow);
-        font-weight: bold;
-        margin-bottom: 6px;
+        font-family: var(--font-title);
+        color: var(--gold-soft);
+        font-size: 1.3rem;
+        font-weight: 700;
+        margin-bottom: 4px;
+      }
+
+      .agenda li strong {
+        font-weight: 400;
+        color: var(--ivory);
       }
 
       /* FORMULÁRIO */
 
       form {
         max-width: 600px;
-        margin: 0 auto 80px;
+        margin: 0 auto 90px;
         display: flex;
         flex-direction: column;
-        gap: 18px;
+        gap: 16px;
         padding: 0 clamp(16px, 4vw, 20px);
       }
 
       form input,
       form textarea {
-        padding: 14px;
-        border-radius: 10px;
-        border: 1px solid #ccc;
+        padding: 14px 16px;
+        border-radius: 8px;
+        border: 1px solid rgba(255, 255, 255, 0.14);
         font-size: 1rem;
         font-family: inherit;
-        background: rgba(255, 255, 255, 0.95);
-        color: #111;
+        background: var(--navy-800);
+        color: var(--ivory);
+        transition:
+          border-color 0.25s ease,
+          background 0.25s ease;
+      }
+
+      form input::placeholder,
+      form textarea::placeholder {
+        color: #7f8da3;
+      }
+
+      form input:focus,
+      form textarea:focus {
+        border-color: var(--gold);
+        background: var(--navy-700);
       }
 
       form button {
-        padding: 14px;
-        background: var(--cyan);
-        color: black;
-        font-weight: bold;
-        font-family: "Oswald", sans-serif;
-        text-transform: uppercase;
-        letter-spacing: 0.03em;
+        padding: 15px;
+        background: var(--gold);
+        color: var(--navy-900);
+        font-weight: 600;
+        font-family: var(--font-body);
+        font-size: 1rem;
+        letter-spacing: 0.02em;
         border: none;
-        border-radius: 10px;
+        border-radius: 8px;
         cursor: pointer;
-        transition: 0.3s;
+        transition:
+          background 0.25s ease,
+          transform 0.25s ease;
       }
 
       form button:hover {
-        background: var(--yellow);
-        transform: scale(1.03);
+        background: var(--gold-soft);
+        transform: translateY(-2px);
       }
 
       /* FOOTER */
 
       footer {
-        background: rgba(0, 0, 0, 0.92);
-        color: var(--cyan);
+        background: var(--navy-900);
+        border-top: 1px solid var(--line);
+        color: var(--ivory);
         text-align: center;
-        padding: 30px clamp(16px, 4vw, 30px);
-        box-shadow: 0 0 15px rgba(0, 255, 247, 0.5);
+        padding: 36px clamp(16px, 4vw, 30px);
+      }
+
+      .social {
+        display: flex;
+        justify-content: center;
+        gap: 14px;
+        margin-bottom: 10px;
+      }
+
+      .social a {
+        width: 42px;
+        height: 42px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        border: 1px solid var(--line);
+        color: var(--gold-soft);
+        font-size: 1.1rem;
+        text-decoration: none;
+        transition:
+          background 0.25s ease,
+          color 0.25s ease;
+      }
+
+      .social a:hover {
+        background: var(--gold);
+        color: var(--navy-900);
       }
 
       footer p {
-        font-size: 0.9rem;
+        font-size: 0.92rem;
         margin-top: 6px;
-        color: #ccc;
+        color: var(--muted);
       }
 
       /* RESPONSIVO */
@@ -481,10 +618,11 @@
           top: 100%;
           left: 0;
           width: 100%;
-          background: rgba(0, 0, 0, 0.97);
+          background: rgba(11, 16, 32, 0.98);
+          border-bottom: 1px solid var(--line);
           flex-direction: column;
           align-items: center;
-          gap: 15px;
+          gap: 14px;
           padding: 20px;
           display: none;
         }
@@ -498,19 +636,190 @@
         }
 
         .view-counter {
-          font-size: 0.75rem;
+          font-size: 0.78rem;
         }
 
         .carousel-btn {
           width: 36px;
           height: 36px;
-          font-size: 0.95rem;
+          font-size: 0.9rem;
+        }
+
+        .section-title {
+          margin: 60px 0 34px;
         }
       }
 
       @media (max-width: 480px) {
         .view-counter span {
           display: none;
+        }
+
+        .agenda ul {
+          padding-left: 28px;
+        }
+
+        .agenda li::before {
+          left: -28px;
+        }
+
+        .agenda li {
+          padding: 16px 18px;
+        }
+      }
+
+      /* CONTATO: painel com mais contraste */
+
+      #contato form {
+        background: rgba(255, 255, 255, 0.06);
+        border: 1px solid rgba(255, 255, 255, 0.18);
+        border-top: 3px solid var(--gold);
+        border-radius: 14px;
+        padding: clamp(20px, 4vw, 34px);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        box-shadow: 0 24px 60px rgba(0, 0, 0, 0.4);
+      }
+
+      #contato form input,
+      #contato form textarea {
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.28);
+        color: #fff;
+      }
+
+      #contato form input::placeholder,
+      #contato form textarea::placeholder {
+        color: #cfd6e6;
+      }
+
+      #contato form input:focus,
+      #contato form textarea:focus {
+        background: rgba(255, 255, 255, 0.16);
+        border-color: var(--gold-soft);
+      }
+
+      #contato form textarea {
+        resize: vertical;
+        min-height: 130px;
+      }
+
+      /* MOBILE */
+
+      @media (max-width: 768px) {
+        body {
+          font-size: 1rem;
+          background-attachment: scroll;
+        }
+
+        header {
+          padding: 8px 16px;
+          padding-left: max(16px, env(safe-area-inset-left));
+          padding-right: max(16px, env(safe-area-inset-right));
+        }
+
+        .logo {
+          order: 1;
+        }
+
+        .view-counter {
+          order: 2;
+          margin-left: auto;
+        }
+
+        .menu-btn {
+          order: 3;
+          padding: 8px;
+          min-width: 44px;
+          min-height: 44px;
+        }
+
+        nav a {
+          display: block;
+          width: 100%;
+          text-align: center;
+          padding: 12px 0;
+          font-size: 1.05rem;
+        }
+
+        .quem-somos,
+        .componentes-wrap {
+          flex-direction: column;
+          text-align: left;
+        }
+
+        .quem-somos div,
+        .componentes-wrap > div:first-child {
+          flex: 0 0 auto;
+          width: 100%;
+          max-width: 100%;
+        }
+
+        .quem-somos img,
+        .componentes-wrap img {
+          flex: 0 0 auto;
+          width: 100%;
+        }
+
+        .componentes {
+          padding: 0 16px;
+        }
+
+        .carousel-section {
+          padding: 0 16px 48px;
+        }
+
+        .carousel-track-wrap {
+          aspect-ratio: 1 / 1;
+        }
+
+        .agenda {
+          padding: 10px 16px 20px;
+          margin-bottom: 56px;
+        }
+
+        form {
+          margin-bottom: 56px;
+          padding: 0 16px;
+        }
+
+        #contato form {
+          margin-left: 16px;
+          margin-right: 16px;
+          padding: 22px 18px;
+        }
+
+        form input,
+        form textarea {
+          font-size: 16px; /* evita zoom automático no iPhone */
+          min-height: 48px;
+        }
+
+        form button {
+          width: 100%;
+          min-height: 50px;
+        }
+
+        footer {
+          padding-bottom: max(30px, env(safe-area-inset-bottom));
+        }
+      }
+
+      @media (max-width: 380px) {
+        .img-logo {
+          width: 56px;
+        }
+
+        .view-counter {
+          padding: 5px 9px;
+        }
+
+        .section-title {
+          font-size: 1.8rem;
+        }
+
+        .agenda span {
+          font-size: 1.15rem;
         }
       }
     </style>
@@ -527,7 +836,7 @@
       </div>
 
       <nav id="menu">
-        <a href="#quem-somos">Quem Somos</a>
+        <a href="#quem-somos">Quem somos</a>
         <a href="#componentes">Componentes</a>
         <a href="#fotos">Fotos</a>
         <a href="#agenda">Agenda</a>
@@ -546,12 +855,12 @@
     </header>
 
     <section id="quem-somos">
-      <h2 class="section-title">Quem Somos</h2>
+      <h2 class="section-title">Quem somos</h2>
 
       <div class="quem-somos">
         <div>
           <p>
-            O <strong>Eletrônico Apocalípse</strong> louva ao Senhor de todo
+            O <strong>Eletrônico Apocalipse</strong> louva ao Senhor de todo
             coração e proclama o Evangelho de Cristo através da música cristã.
           </p>
         </div>
@@ -687,133 +996,38 @@
         <h2 class="section-title">Agenda</h2>
 
         <ul>
-          <!-- <li>
-            <span>08 de agosto 2026</span>
-            <strong
-              >- Manhã de consagração Horário: 7hs ás 10hs Local: IEADPE ÀREA 54,
-              CONGREGAÇÃO DÊNDE IBURA.
-            </strong><br>
-            <strong>
-              - Aniversario do Eletrônico Local: IEADPE
-              ÀREA 34 CONGREGAÇÃO RUA DA PRATA.
-            </strong>
-          <       <li>
-            <span>22 de agosto 2026</span>
-            <strong>Igreja Polo PONTEZINHA </strong>
+          <!-- Modelo para novos eventos:
+          <li>
+            <span>Dia 00 de Mês 2026</span>
+            <strong>Descrição do evento</strong>
           </li>
-   /li> -->
-
-          <!-- 
+          -->
           <li>
-            <span>19 de julho 2026</span>
-            <strong>Aniversário do PROATI</strong>
-          </li> -->
-
-          <!-- <li>
-           <span>26 de Julho 2026</span>
-            <strong>Venturosa</strong>
-          </li> -->
-
-          <!-- <li>
-            <span>1 e 2 de agosto 2026</span>
-            <strong>Aniversário da União</strong>
-          </li> -->
-          
-          <!-- <li>
-            <span>27 de Agosto 2026</span>
-            <strong
-              >Aniversario do Circulo de Oração na congregação Dênde Ibura área
-              54, apartir das 11:30hs.</strong
-            >
-          </li> -->
-
-          <!-- <li>
-            <span>30 de agosto 2026</span>
-            <strong>Aniversário do Eletrônico Shekina</strong>
-                <strong>
-                  Pastor Ev.: Severino Ferreira<br />
-                  Dirigente: Gerson Leoncio<br />
-                  Vice-dirigente: Danilo Santana<br />
-                  Barra de Guabiraba PE.
-                </strong> 
-          </li> -->
-
-          <!-- <li>
-            <span>30 de agosto 2026</span>
-            <strong>Grupo Jovem</strong>
-          </li> -->
-
-          <!-- <li>
-            <span>12 e 13 de setembro 2026</span>
-            <strong>Aniversário do vocal</strong>
-          </li>
-
-          <li>
-            <span>17 de setembro 2026</span>
-            <strong>Aniversário do circulo de Oração <br>
-              Na área 54 congregação Polo UR 05 IBURA. <br>
-              Responsável: IRMÃ DA PAZ a dirigente do mesmo.
-            </strong>
-          </li>
-
-          <li>
-            <span>19 e 20 de setembro 2026</span>
-            <strong>Aniversário do COI</strong>
-          </li> -->
-
-          <!-- <li>
-            <span> 26 e 27 de setembro 2026</span>
-            <strong>Aniversário do GRUPO ASAFE em PONTEZINHA - CABO - PE</strong>
-          </li> -->
-
-
-          <!-- <li>
-            <span>06 de Outubro 2026</span>
-            <strong>Aniversário do Circulo de Oração na congregação em Betel área 54, Presbítero J. Torres, apartir das 12hs</strong>
-          </li> -->
-
-          <!-- <li>
-              <span>Dia 08 de Novembro 2026</span>
-              <strong>
-              Aniversário das adolescentes em UR 04 BAIXO àrea 54 , Presbitero Irmão Rogerio dirigente nossa querida Irmã Luciana Será às 18</strong>
-          </li> -->
-
-          <!-- <li>
-
-            <span>09 de Novembro 2026</span>
-            <strong>Aniversário do Presbítero da IEADPE na àrea 17 do setor 10 Jaboatão dos Guararapes PE
-                    Congregação UR 06 l às 18:30hs.          </strong>
-          </li>
-
-          <li>
-            <span>14 e 15 de novembro 2026</span>
-            <strong>Aniversário do conjunto</strong>
-          </li> -->
-          <li>
-
             <span>Dia 29 de Novembro 2026</span>
-            <strong>Aniversário do Conjunto Musical da IEADPE congregação em UR 11 - àrea 10 do setor 10
-                    Responsável: Irmão Flavio
+            <strong
+              >Aniversário do Conjunto Musical da IEADPE congregação em UR 11 -
+              área 10 do setor 10<br />
+              Responsável: Irmão Flavio
             </strong>
           </li>
           <li>
             <span>Dia 30 de Novembro 2026</span>
-            <strong>Culto de ações de graça na Assembleia de Deus em Sancho tejipió da Irmã Darcy Silva que é a mana da cantora Leni Silva às 19hs.</strong>
+            <strong
+              >Culto de ações de graça na Assembleia de Deus em Sancho Tejipió
+              da Irmã Darcy Silva que é a mana da cantora Leni Silva às
+              19hs.</strong
+            >
           </li>
 
           <li>
             <span>Dia 06 de Dezembro 2026</span>
-            <strong>Aniversário das adolescentes na IEADPE na congregação em Boa vista na cidade de Gravata-PE.
-              Às 18hs, Pastor Joel Calado
+            <strong
+              >Aniversário das adolescentes na IEADPE na congregação em Boa
+              Vista na cidade de Gravatá-PE.<br />
+              Às 18hs, Pastor Joel Calado<br />
               Responsável: Irmã Rosinha
             </strong>
           </li>
-
-          <!-- <li>
-            <span>  </span>
-            <strong>  </strong>
-          </li> -->
-          
         </ul>
       </div>
     </section>
@@ -833,14 +1047,9 @@
     </section>
 
     <footer>
-      <div>
-        <a href="#" style="color: red; margin: 10px; font-size: 20px">
-          <i class="fab fa-youtube"></i>
-        </a>
-
-        <a href="#" style="color: aqua; margin: 10px; font-size: 20px">
-          <i class="fab fa-instagram"></i>
-        </a>
+      <div class="social">
+        <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+        <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
       </div>
 
       <p>© 2025 Eletrônico Apocalipse — Desenvolvido por Mário Oliveira</p>
