@@ -1020,28 +1020,12 @@
           </li>
 
           <li>
-            <span>Dia 05 de Dezembro 2026</span>
-            <strong>
-              Assembleia de Deus em São Joaquim do Monte PE.
-              Ultima santa ceia do Senhor de 2026! Pastor Jeriel Santos
-            </strong>
-          </li>
-
-          <li>
             <span>Dia 06 de Dezembro 2026</span>
             <strong
               >Aniversário das adolescentes na IEADPE na congregação em Boa
               Vista na cidade de Gravatá-PE.<br />
               Às 18hs, Pastor Joel Calado<br />
               Responsável: Irmã Rosinha
-            </strong>
-          </li>
-
-          <li>
-            <span>Dia 12 de Dezembro 2026</span>
-            <strong
-              >Aniversário do Ponto de pregação da casa do irmão Regis na UR 05
-              Ibura. às 19hs.<br />
             </strong>
           </li>
         </ul>
@@ -1164,7 +1148,7 @@
       updateCarousel();
       startAutoplay();
 
-      // CONTATO VIA WHATSAPP
+      // CONTATO VIA WHATSAPP (+ salva no banco quando o Firebase está conectado)
       function enviarParaWhatsApp(event) {
         event.preventDefault();
 
@@ -1173,16 +1157,126 @@
         const telefone = document.getElementById("whatsapp").value;
         const mensagem = document.getElementById("mensagem").value;
 
+        // Salva no banco em paralelo; se falhar, o WhatsApp abre do mesmo jeito
+        if (typeof window.salvarMensagem === "function") {
+          window.salvarMensagem({ nome, email, whatsapp: telefone, mensagem });
+        }
+
         const numero = "558186340513";
 
-        const texto =
-          `Olá! Novo contato do site Eletrônico Apocalipse:%0A` +
-          `Nome: ${nome}%0A` +
-          `Email: ${email}%0A` +
-          `WhatsApp: ${telefone}%0A` +
-          `Mensagem: ${mensagem}`;
+        const texto = encodeURIComponent(
+          `Olá! Novo contato do site Eletrônico Apocalipse:\n` +
+            `Nome: ${nome}\n` +
+            `Email: ${email}\n` +
+            `WhatsApp: ${telefone}\n` +
+            `Mensagem: ${mensagem}`,
+        );
 
         window.open(`https://wa.me/${numero}?text=${texto}`);
+        event.target.reset();
+      }
+    </script>
+
+    <!-- FIREBASE / FIRESTORE (banco não relacional) -->
+    <script type="module">
+      // Chaves do projeto Firebase "eletronico-apocalipse"
+      const firebaseConfig = {
+        apiKey: "AIzaSyCikwRVKq7Nms_LErhwNv4x9_0gTlVvFwg",
+        authDomain: "eletronico-apocalipse.firebaseapp.com",
+        projectId: "eletronico-apocalipse",
+        storageBucket: "eletronico-apocalipse.firebasestorage.app",
+        messagingSenderId: "56334915197",
+        appId: "1:56334915197:web:b027be172f29538070c314",
+      };
+
+      const configurado = !Object.values(firebaseConfig).some((v) =>
+        String(v).startsWith("COLE_AQUI"),
+      );
+
+      if (!configurado) {
+        console.info(
+          "Firebase não configurado: o site usa contador local e agenda do HTML.",
+        );
+      } else {
+        try {
+          const V = "13.4.0";
+          const { initializeApp } = await import(
+            `https://www.gstatic.com/firebasejs/${V}/firebase-app.js`
+          );
+          const {
+            getFirestore, doc, getDoc, setDoc, updateDoc, increment,
+            addDoc, collection, getDocs, query, orderBy, serverTimestamp,
+          } = await import(
+            `https://www.gstatic.com/firebasejs/${V}/firebase-firestore.js`
+          );
+
+          const db = getFirestore(initializeApp(firebaseConfig));
+
+          // ---- CONTADOR GLOBAL (conta 1 vez por visita) ----
+          (async () => {
+            try {
+              const ref = doc(db, "site", "contador");
+              if (!sessionStorage.getItem("ea_counted")) {
+                try {
+                  await updateDoc(ref, { views: increment(1) });
+                } catch {
+                  await setDoc(ref, { views: 1 }); // primeira visita de todas
+                }
+                sessionStorage.setItem("ea_counted", "1");
+              }
+              const snap = await getDoc(ref);
+              if (snap.exists()) {
+                document.getElementById("view-count").textContent =
+                  snap.data().views.toLocaleString("pt-BR");
+              }
+            } catch (e) {
+              console.warn("Contador:", e);
+            }
+          })();
+
+          // ---- MENSAGENS DO CONTATO ----
+          window.salvarMensagem = async (dados) => {
+            try {
+              await addDoc(collection(db, "mensagens"), {
+                ...dados,
+                criadoEm: serverTimestamp(),
+              });
+            } catch (e) {
+              console.warn("Mensagem não salva:", e);
+            }
+          };
+
+          // ---- AGENDA VINDA DO BANCO ----
+          (async () => {
+            try {
+              const q = query(collection(db, "agenda"), orderBy("data"));
+              const docs = await getDocs(q);
+              if (docs.empty) return; // mantém a agenda escrita no HTML
+
+              const hoje = new Date().toISOString().slice(0, 10);
+              const lista = document.querySelector("#agenda ul");
+              lista.innerHTML = "";
+
+              docs.forEach((d) => {
+                const e = d.data();
+                if (e.data && e.data < hoje) return; // esconde eventos passados
+
+                const li = document.createElement("li");
+                const span = document.createElement("span");
+                const strong = document.createElement("strong");
+                span.textContent = e.titulo || "";
+                strong.textContent = e.descricao || "";
+                strong.style.whiteSpace = "pre-line";
+                li.append(span, strong);
+                lista.appendChild(li);
+              });
+            } catch (e) {
+              console.warn("Agenda:", e);
+            }
+          })();
+        } catch (e) {
+          console.warn("Falha ao carregar o Firebase:", e);
+        }
       }
     </script>
   </body>

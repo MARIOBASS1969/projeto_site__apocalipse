@@ -1,0 +1,1189 @@
+<!doctype html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <title>Eletrônico Apocalipse</title>
+
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Source+Sans+3:wght@400;500;600&display=swap");
+
+      :root {
+        --navy-900: #0b1020;
+        --navy-800: #151b3d;
+        --navy-700: #1e2753;
+        --navy-600: #2a3468;
+        --gold: #c9a45c;
+        --gold-soft: #e0c88f;
+        --ivory: #f4efe4;
+        --muted: #a9b4c4;
+        --line: rgba(201, 164, 92, 0.28);
+        --radius: 10px;
+        --max-width: 1140px;
+        --font-title: "Cormorant Garamond", Georgia, serif;
+        --font-body: "Source Sans 3", "Segoe UI", Arial, sans-serif;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        html {
+          scroll-behavior: auto;
+        }
+        * {
+          animation-duration: 0.01ms !important;
+          transition-duration: 0.01ms !important;
+        }
+      }
+
+      section {
+        scroll-margin-top: 90px;
+      }
+
+      body {
+        font-family: var(--font-body);
+        font-size: 1.05rem;
+        color: var(--ivory);
+        background-image:
+          linear-gradient(
+            135deg,
+            rgba(12, 14, 46, 0.94) 0%,
+            rgba(38, 24, 98, 0.9) 45%,
+            rgba(8, 82, 98, 0.92) 100%
+          ),
+          url("a991c83d-f967-4f3d-9f9f-d5695664a749.png");
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+        background-repeat: no-repeat;
+        background-color: var(--navy-900);
+        line-height: 1.7;
+        overflow-x: hidden;
+        -webkit-font-smoothing: antialiased;
+      }
+
+      a:focus-visible,
+      button:focus-visible,
+      input:focus-visible,
+      textarea:focus-visible {
+        outline: 2px solid var(--gold-soft);
+        outline-offset: 3px;
+      }
+
+      /* HEADER */
+
+      header {
+        background: rgba(11, 16, 32, 0.94);
+        backdrop-filter: blur(10px);
+        border-bottom: 1px solid var(--line);
+        box-shadow: 0 6px 24px rgba(0, 0, 0, 0.35);
+
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+
+        padding: 10px clamp(16px, 5vw, 40px);
+
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+      }
+
+      .logo {
+        display: flex;
+        align-items: center;
+      }
+
+      .img-logo {
+        width: clamp(64px, 7vw, 92px);
+        border-radius: 8px;
+        transition: transform 0.3s ease;
+        display: block;
+      }
+
+      .img-logo:hover {
+        transform: scale(1.04);
+      }
+
+      /* MENU */
+
+      nav {
+        flex: 1;
+        display: flex;
+        justify-content: center;
+        gap: clamp(14px, 3vw, 34px);
+        flex-wrap: wrap;
+      }
+
+      nav a {
+        color: var(--ivory);
+        text-decoration: none;
+        font-family: var(--font-body);
+        font-weight: 500;
+        font-size: 0.98rem;
+        letter-spacing: 0.02em;
+        padding: 6px 2px;
+        border-bottom: 2px solid transparent;
+        transition:
+          color 0.25s ease,
+          border-color 0.25s ease;
+      }
+
+      nav a:hover,
+      nav a:focus-visible {
+        color: var(--gold-soft);
+        border-bottom-color: var(--gold);
+      }
+
+      .menu-btn {
+        display: none;
+        font-size: 24px;
+        color: var(--ivory);
+        cursor: pointer;
+        background: none;
+        border: none;
+      }
+
+      /* VIEW COUNTER */
+
+      .view-counter {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 0.88rem;
+        color: var(--muted);
+        white-space: nowrap;
+        padding: 6px 12px;
+        border: 1px solid var(--line);
+        border-radius: 999px;
+      }
+
+      .view-counter i {
+        color: var(--gold);
+        font-size: 0.9rem;
+      }
+
+      .view-counter strong {
+        color: var(--ivory);
+        font-weight: 600;
+      }
+
+      /* TITULOS */
+
+      .section-title {
+        color: var(--ivory);
+        font-family: var(--font-title);
+        font-weight: 700;
+        letter-spacing: 0.01em;
+        font-size: clamp(2rem, 4.5vw, 2.9rem);
+        line-height: 1.15;
+        text-align: center;
+        margin: 80px 0 44px;
+      }
+
+      .section-title::after {
+        content: "";
+        display: block;
+        width: 64px;
+        height: 2px;
+        background: var(--gold);
+        margin: 16px auto 0;
+      }
+
+      /* SEÇÕES */
+
+      .quem-somos,
+      .componentes-wrap {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: clamp(28px, 5vw, 64px);
+        flex-wrap: wrap;
+        padding: 20px clamp(16px, 5vw, 40px);
+        max-width: var(--max-width);
+        margin: 0 auto;
+      }
+
+      .quem-somos div,
+      .componentes-wrap > div:first-child {
+        max-width: 520px;
+        flex: 1 1 320px;
+      }
+
+      .quem-somos p {
+        font-family: var(--font-title);
+        font-size: clamp(1.35rem, 2.4vw, 1.7rem);
+        line-height: 1.55;
+        font-weight: 500;
+        color: var(--ivory);
+        border-left: 3px solid var(--gold);
+        padding-left: 22px;
+      }
+
+      .quem-somos p strong {
+        color: var(--gold-soft);
+        font-weight: 700;
+      }
+
+      .quem-somos img,
+      .componentes-wrap img {
+        width: 440px;
+        max-width: 100%;
+        border-radius: var(--radius);
+        border: 1px solid var(--line);
+        padding: 8px;
+        background: var(--navy-800);
+        box-shadow: 0 18px 40px rgba(0, 0, 0, 0.5);
+        flex: 1 1 320px;
+        transition: transform 0.4s ease;
+      }
+
+      .quem-somos img:hover,
+      .componentes-wrap img:hover {
+        transform: translateY(-4px);
+      }
+
+      /* COMPONENTES */
+
+      .componentes {
+        max-width: var(--max-width);
+        margin: 0 auto;
+        padding: 0 clamp(16px, 5vw, 40px);
+      }
+
+      .componentes-wrap {
+        background: var(--navy-800);
+        border: 1px solid var(--line);
+        border-top: 3px solid var(--gold);
+        border-radius: var(--radius);
+        padding: clamp(24px, 4vw, 44px);
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.45);
+      }
+
+      .componentes-wrap p {
+        padding: 9px 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+        color: var(--muted);
+      }
+
+      .componentes-wrap p:last-child {
+        border-bottom: none;
+      }
+
+      .componentes-wrap p strong {
+        color: var(--gold-soft);
+        font-weight: 600;
+        margin-right: 4px;
+      }
+
+      /* CARROSSEL */
+
+      .carousel-section {
+        max-width: var(--max-width);
+        margin: 0 auto;
+        padding: 0 clamp(16px, 5vw, 40px) 60px;
+      }
+
+      .gallery-intro {
+        text-align: center;
+        margin-bottom: 32px;
+      }
+
+      .gallery-intro h3 {
+        font-family: var(--font-title);
+        color: var(--gold-soft);
+        font-weight: 700;
+        font-size: clamp(1.5rem, 3vw, 2rem);
+        margin-bottom: 8px;
+      }
+
+      .gallery-intro p {
+        font-family: var(--font-title);
+        font-style: italic;
+        font-size: clamp(1.1rem, 2vw, 1.3rem);
+        color: var(--muted);
+        max-width: 680px;
+        margin: 0 auto;
+      }
+
+      .carousel {
+        position: relative;
+        width: 100%;
+        max-width: 900px;
+        margin: 0 auto;
+        border-radius: var(--radius);
+        overflow: hidden;
+        border: 1px solid var(--line);
+        box-shadow: 0 24px 60px rgba(0, 0, 0, 0.55);
+        background: var(--navy-900);
+      }
+
+      .carousel-track-wrap {
+        position: relative;
+        width: 100%;
+        aspect-ratio: 4 / 3;
+        overflow: hidden;
+      }
+
+      .carousel-track {
+        display: flex;
+        height: 100%;
+        transition: transform 0.6s cubic-bezier(0.45, 0, 0.2, 1);
+      }
+
+      .carousel-slide {
+        flex: 0 0 100%;
+        height: 100%;
+      }
+
+      .carousel-slide img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+      }
+
+      .carousel-btn {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        background: rgba(11, 16, 32, 0.7);
+        border: 1px solid var(--gold);
+        color: var(--gold-soft);
+        width: 44px;
+        height: 44px;
+        border-radius: 50%;
+        cursor: pointer;
+        font-size: 1rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition:
+          background 0.25s ease,
+          color 0.25s ease;
+        z-index: 5;
+      }
+
+      .carousel-btn:hover {
+        background: var(--gold);
+        color: var(--navy-900);
+      }
+
+      .carousel-btn.prev {
+        left: 14px;
+      }
+
+      .carousel-btn.next {
+        right: 14px;
+      }
+
+      .carousel-dots {
+        display: flex;
+        justify-content: center;
+        gap: 9px;
+        padding: 20px 0 0;
+        flex-wrap: wrap;
+      }
+
+      .carousel-dots button {
+        width: 9px;
+        height: 9px;
+        border-radius: 50%;
+        border: 1px solid var(--gold);
+        background: transparent;
+        cursor: pointer;
+        padding: 0;
+        transition:
+          background 0.25s ease,
+          transform 0.25s ease;
+      }
+
+      .carousel-dots button.active {
+        background: var(--gold);
+        transform: scale(1.25);
+      }
+
+      .carousel-counter {
+        position: absolute;
+        bottom: 14px;
+        right: 14px;
+        background: rgba(11, 16, 32, 0.78);
+        color: var(--ivory);
+        font-size: 0.82rem;
+        padding: 4px 12px;
+        border-radius: 999px;
+        border: 1px solid var(--line);
+        z-index: 5;
+      }
+
+      /* AGENDA (linha do tempo) */
+
+      .agenda {
+        padding: 10px clamp(16px, 4vw, 50px) 20px;
+        max-width: 860px;
+        margin: 0 auto 80px;
+      }
+
+      .agenda ul {
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+        gap: 22px;
+        position: relative;
+        padding-left: 34px;
+      }
+
+      .agenda ul::before {
+        content: "";
+        position: absolute;
+        left: 7px;
+        top: 6px;
+        bottom: 6px;
+        width: 2px;
+        background: var(--line);
+      }
+
+      .agenda li {
+        position: relative;
+        font-size: 1.02rem;
+        background: var(--navy-800);
+        padding: 20px 24px;
+        border-radius: var(--radius);
+        border: 1px solid rgba(255, 255, 255, 0.06);
+        color: var(--muted);
+        transition:
+          border-color 0.3s ease,
+          background 0.3s ease;
+        text-align: left;
+      }
+
+      .agenda li::before {
+        content: "";
+        position: absolute;
+        left: -34px;
+        top: 26px;
+        width: 16px;
+        height: 16px;
+        border-radius: 50%;
+        background: var(--navy-900);
+        border: 2px solid var(--gold);
+      }
+
+      .agenda li:hover {
+        border-color: var(--line);
+        background: var(--navy-700);
+      }
+
+      .agenda span {
+        display: block;
+        font-family: var(--font-title);
+        color: var(--gold-soft);
+        font-size: 1.3rem;
+        font-weight: 700;
+        margin-bottom: 4px;
+      }
+
+      .agenda li strong {
+        font-weight: 400;
+        color: var(--ivory);
+      }
+
+      /* FORMULÁRIO */
+
+      form {
+        max-width: 600px;
+        margin: 0 auto 90px;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        padding: 0 clamp(16px, 4vw, 20px);
+      }
+
+      form input,
+      form textarea {
+        padding: 14px 16px;
+        border-radius: 8px;
+        border: 1px solid rgba(255, 255, 255, 0.14);
+        font-size: 1rem;
+        font-family: inherit;
+        background: var(--navy-800);
+        color: var(--ivory);
+        transition:
+          border-color 0.25s ease,
+          background 0.25s ease;
+      }
+
+      form input::placeholder,
+      form textarea::placeholder {
+        color: #7f8da3;
+      }
+
+      form input:focus,
+      form textarea:focus {
+        border-color: var(--gold);
+        background: var(--navy-700);
+      }
+
+      form button {
+        padding: 15px;
+        background: var(--gold);
+        color: var(--navy-900);
+        font-weight: 600;
+        font-family: var(--font-body);
+        font-size: 1rem;
+        letter-spacing: 0.02em;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        transition:
+          background 0.25s ease,
+          transform 0.25s ease;
+      }
+
+      form button:hover {
+        background: var(--gold-soft);
+        transform: translateY(-2px);
+      }
+
+      /* FOOTER */
+
+      footer {
+        background: var(--navy-900);
+        border-top: 1px solid var(--line);
+        color: var(--ivory);
+        text-align: center;
+        padding: 36px clamp(16px, 4vw, 30px);
+      }
+
+      .social {
+        display: flex;
+        justify-content: center;
+        gap: 14px;
+        margin-bottom: 10px;
+      }
+
+      .social a {
+        width: 42px;
+        height: 42px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        border: 1px solid var(--line);
+        color: var(--gold-soft);
+        font-size: 1.1rem;
+        text-decoration: none;
+        transition:
+          background 0.25s ease,
+          color 0.25s ease;
+      }
+
+      .social a:hover {
+        background: var(--gold);
+        color: var(--navy-900);
+      }
+
+      footer p {
+        font-size: 0.92rem;
+        margin-top: 6px;
+        color: var(--muted);
+      }
+
+      /* RESPONSIVO */
+
+      @media (max-width: 768px) {
+        header {
+          flex-wrap: wrap;
+        }
+
+        nav {
+          position: absolute;
+          top: 100%;
+          left: 0;
+          width: 100%;
+          background: rgba(11, 16, 32, 0.98);
+          border-bottom: 1px solid var(--line);
+          flex-direction: column;
+          align-items: center;
+          gap: 14px;
+          padding: 20px;
+          display: none;
+        }
+
+        nav.active {
+          display: flex;
+        }
+
+        .menu-btn {
+          display: block;
+        }
+
+        .view-counter {
+          font-size: 0.78rem;
+        }
+
+        .carousel-btn {
+          width: 36px;
+          height: 36px;
+          font-size: 0.9rem;
+        }
+
+        .section-title {
+          margin: 60px 0 34px;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .view-counter span {
+          display: none;
+        }
+
+        .agenda ul {
+          padding-left: 28px;
+        }
+
+        .agenda li::before {
+          left: -28px;
+        }
+
+        .agenda li {
+          padding: 16px 18px;
+        }
+      }
+
+      /* CONTATO: painel com mais contraste */
+
+      #contato form {
+        background: rgba(255, 255, 255, 0.06);
+        border: 1px solid rgba(255, 255, 255, 0.18);
+        border-top: 3px solid var(--gold);
+        border-radius: 14px;
+        padding: clamp(20px, 4vw, 34px);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        box-shadow: 0 24px 60px rgba(0, 0, 0, 0.4);
+      }
+
+      #contato form input,
+      #contato form textarea {
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.28);
+        color: #fff;
+      }
+
+      #contato form input::placeholder,
+      #contato form textarea::placeholder {
+        color: #cfd6e6;
+      }
+
+      #contato form input:focus,
+      #contato form textarea:focus {
+        background: rgba(255, 255, 255, 0.16);
+        border-color: var(--gold-soft);
+      }
+
+      #contato form textarea {
+        resize: vertical;
+        min-height: 130px;
+      }
+
+      /* MOBILE */
+
+      @media (max-width: 768px) {
+        body {
+          font-size: 1rem;
+          background-attachment: scroll;
+        }
+
+        header {
+          padding: 8px 16px;
+          padding-left: max(16px, env(safe-area-inset-left));
+          padding-right: max(16px, env(safe-area-inset-right));
+        }
+
+        .logo {
+          order: 1;
+        }
+
+        .view-counter {
+          order: 2;
+          margin-left: auto;
+        }
+
+        .menu-btn {
+          order: 3;
+          padding: 8px;
+          min-width: 44px;
+          min-height: 44px;
+        }
+
+        nav a {
+          display: block;
+          width: 100%;
+          text-align: center;
+          padding: 12px 0;
+          font-size: 1.05rem;
+        }
+
+        .quem-somos,
+        .componentes-wrap {
+          flex-direction: column;
+          text-align: left;
+        }
+
+        .quem-somos div,
+        .componentes-wrap > div:first-child {
+          flex: 0 0 auto;
+          width: 100%;
+          max-width: 100%;
+        }
+
+        .quem-somos img,
+        .componentes-wrap img {
+          flex: 0 0 auto;
+          width: 100%;
+        }
+
+        .componentes {
+          padding: 0 16px;
+        }
+
+        .carousel-section {
+          padding: 0 16px 48px;
+        }
+
+        .carousel-track-wrap {
+          aspect-ratio: 1 / 1;
+        }
+
+        .agenda {
+          padding: 10px 16px 20px;
+          margin-bottom: 56px;
+        }
+
+        form {
+          margin-bottom: 56px;
+          padding: 0 16px;
+        }
+
+        #contato form {
+          margin-left: 16px;
+          margin-right: 16px;
+          padding: 22px 18px;
+        }
+
+        form input,
+        form textarea {
+          font-size: 16px; /* evita zoom automático no iPhone */
+          min-height: 48px;
+        }
+
+        form button {
+          width: 100%;
+          min-height: 50px;
+        }
+
+        footer {
+          padding-bottom: max(30px, env(safe-area-inset-bottom));
+        }
+      }
+
+      @media (max-width: 380px) {
+        .img-logo {
+          width: 56px;
+        }
+
+        .view-counter {
+          padding: 5px 9px;
+        }
+
+        .section-title {
+          font-size: 1.8rem;
+        }
+
+        .agenda span {
+          font-size: 1.15rem;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <header>
+      <div class="logo">
+        <img
+          class="img-logo"
+          src="logo_apocalipse.png"
+          alt="Logo Eletrônico Apocalipse"
+        />
+      </div>
+
+      <nav id="menu">
+        <a href="#quem-somos">Quem somos</a>
+        <a href="#componentes">Componentes</a>
+        <a href="#fotos">Fotos</a>
+        <a href="#agenda">Agenda</a>
+        <a href="#contato">Contato</a>
+      </nav>
+
+      <div class="view-counter" title="Total de visualizações">
+        <i class="fas fa-eye"></i>
+        <span>Visualizações:</span>
+        <strong id="view-count">0</strong>
+      </div>
+
+      <button class="menu-btn" onclick="toggleMenu()" aria-label="Abrir menu">
+        <i class="fas fa-bars"></i>
+      </button>
+    </header>
+
+    <section id="quem-somos">
+      <h2 class="section-title">Quem somos</h2>
+
+      <div class="quem-somos">
+        <div>
+          <p>
+            O <strong>Eletrônico Apocalipse</strong> louva ao Senhor de todo
+            coração e proclama o Evangelho de Cristo através da música cristã.
+          </p>
+        </div>
+
+        <img
+          src="todos_apocalipse41anos.jpeg"
+          alt="Grupo Eletrônico Apocalipse - 41 anos"
+        />
+      </div>
+    </section>
+
+    <section id="componentes">
+      <div class="componentes">
+        <h2 class="section-title">Componentes</h2>
+
+        <div class="componentes-wrap">
+          <div>
+            <p><strong>Dirigente:</strong> Valteir Barros</p>
+            <p><strong>Vice-dirigente:</strong> Mario Roberto</p>
+            <p><strong>Secretária:</strong> Erica Madalena</p>
+            <p>
+              <strong>Vocalistas:</strong> Valteir / Heyane / Ednice / Aninha /
+              Larinha / Nubia
+            </p>
+            <p><strong>Tecladista:</strong> Valteir/Mário</p>
+            <p><strong>Baixista:</strong> Mário</p>
+            <p><strong>Baterista:</strong> Valdek / Heitor / Lucas</p>
+            <p><strong>Guitarrista:</strong> Milton</p>
+            <p><strong>Violonista:</strong> Mário</p>
+          </div>
+
+          <img src="WhatsApp Image 2.jpeg" alt="Componentes do grupo" />
+        </div>
+      </div>
+    </section>
+
+    <section id="fotos">
+      <h2 class="section-title">Fotos</h2>
+
+      <div class="carousel-section">
+        <div class="gallery-intro">
+          <h3>41 anos</h3>
+          <p>
+            "Bom é louvar ao Senhor e cantar louvores ao teu nome, ó Altíssimo!"
+            — Salmo 92:1
+          </p>
+        </div>
+
+        <div class="carousel" id="carousel">
+          <div class="carousel-track-wrap">
+            <div class="carousel-track" id="carousel-track">
+              <div class="carousel-slide">
+                <img src="valteir41.jpeg" alt="Valteir - 41 anos" />
+              </div>
+              <div class="carousel-slide">
+                <img src="nice_eyane41.jpeg" alt="Nice e Eyane - 41 anos" />
+              </div>
+              <div class="carousel-slide">
+                <img src="eyane41.jpeg" alt="Eyane - 41 anos" />
+              </div>
+              <div class="carousel-slide">
+                <img src="nice41.jpeg" alt="Nice - 41 anos" />
+              </div>
+              <div class="carousel-slide">
+                <img src="nubia41.jpeg" alt="Nubia - 41 anos" />
+              </div>
+              <div class="carousel-slide">
+                <img src="aninha_lara41.jpeg" alt="Aninha e Lara - 41 anos" />
+              </div>
+              <div class="carousel-slide">
+                <img src="marrio41.jpeg" alt="Mário - 41 anos" />
+              </div>
+              <div class="carousel-slide">
+                <img src="milton41.jpeg" alt="Milton - 41 anos" />
+              </div>
+              <div class="carousel-slide">
+                <img
+                  src="mario_jair_milton41.jpeg"
+                  alt="Mário, Jair e Milton - 41 anos"
+                />
+              </div>
+              <div class="carousel-slide">
+                <img
+                  src="mario_milton_esdras_nice.jpeg"
+                  alt="Mário, Milton, Esdras e Nice"
+                />
+              </div>
+              <div class="carousel-slide">
+                <img src="valdeque41.jpeg" alt="Valdeque - 41 anos" />
+              </div>
+              <div class="carousel-slide">
+                <img src="toy41.jpeg" alt="Toy - 41 anos" />
+              </div>
+              <div class="carousel-slide">
+                <img src="lucas41.jpeg" alt="Lucas - 41 anos" />
+              </div>
+              <div class="carousel-slide">
+                <img
+                  src="primo_milton41.jpeg"
+                  alt="Primo de Milton - 41 anos"
+                />
+              </div>
+              <div class="carousel-slide">
+                <img src="grupo41.jpeg" alt="Grupo completo - 41 anos" />
+              </div>
+            </div>
+          </div>
+
+          <button
+            class="carousel-btn prev"
+            onclick="moveCarousel(-1)"
+            aria-label="Foto anterior"
+          >
+            <i class="fas fa-chevron-left"></i>
+          </button>
+          <button
+            class="carousel-btn next"
+            onclick="moveCarousel(1)"
+            aria-label="Próxima foto"
+          >
+            <i class="fas fa-chevron-right"></i>
+          </button>
+
+          <div class="carousel-counter" id="carousel-counter">1 / 15</div>
+        </div>
+
+        <div class="carousel-dots" id="carousel-dots"></div>
+      </div>
+    </section>
+
+    <section id="agenda">
+      <div class="agenda">
+        <h2 class="section-title">Agenda</h2>
+
+        <ul>
+          <!-- Modelo para novos eventos:
+          <li>
+            <span>Dia 00 de Mês 2026</span>
+            <strong>Descrição do evento</strong>
+          </li>
+          -->
+          <li>
+            <span>Dia 29 de Novembro 2026</span>
+            <strong
+              >Aniversário do Conjunto Musical da IEADPE congregação em UR 11 -
+              área 10 do setor 10<br />
+              Responsável: Irmão Flavio
+            </strong>
+          </li>
+          <li>
+            <span>Dia 30 de Novembro 2026</span>
+            <strong
+              >Culto de ações de graça na Assembleia de Deus em Sancho Tejipió
+              da Irmã Darcy Silva que é a mana da cantora Leni Silva às
+              19hs.</strong
+            >
+          </li>
+
+          <li>
+            <span>Dia 05 de Dezembro 2026</span>
+            <strong>
+              Assembleia de Deus em São Joaquim do Monte PE.
+              Ultima santa ceia do Senhor de 2026! Pastor Jeriel Santos
+            </strong>
+          </li>
+
+          <li>
+            <span>Dia 06 de Dezembro 2026</span>
+            <strong
+              >Aniversário das adolescentes na IEADPE na congregação em Boa
+              Vista na cidade de Gravatá-PE.<br />
+              Às 18hs, Pastor Joel Calado<br />
+              Responsável: Irmã Rosinha
+            </strong>
+          </li>
+
+          <li>
+            <span>Dia 12 de Dezembro 2026</span>
+            <strong
+              >Aniversário do Ponto de pregação da casa do irmão Regis na UR 05
+              Ibura. às 19hs.<br />
+            </strong>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <section id="contato">
+      <h2 class="section-title">Contato</h2>
+
+      <form onsubmit="enviarParaWhatsApp(event)">
+        <input type="text" id="nome" placeholder="Nome" required />
+        <input type="email" id="email" placeholder="E-mail" required />
+        <input type="text" id="whatsapp" placeholder="WhatsApp" required />
+
+        <textarea id="mensagem" rows="5" placeholder="Mensagem"></textarea>
+
+        <button type="submit">Enviar via WhatsApp</button>
+      </form>
+    </section>
+
+    <footer>
+      <div class="social">
+        <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+        <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+      </div>
+
+      <p>© 2025 Eletrônico Apocalipse — Desenvolvido por Mário Oliveira</p>
+    </footer>
+
+    <script>
+      // MENU MOBILE
+      function toggleMenu() {
+        document.getElementById("menu").classList.toggle("active");
+      }
+
+      document.querySelectorAll("nav a").forEach((link) => {
+        link.addEventListener("click", () => {
+          document.getElementById("menu").classList.remove("active");
+        });
+      });
+
+      // CONTADOR DE VISUALIZAÇÕES (armazenado no navegador do visitante)
+      (function () {
+        try {
+          let count = parseInt(
+            localStorage.getItem("ea_view_count") || "0",
+            10,
+          );
+          count += 1;
+          localStorage.setItem("ea_view_count", count);
+          document.getElementById("view-count").textContent =
+            count.toLocaleString("pt-BR");
+        } catch (e) {
+          document.getElementById("view-count").textContent = "—";
+        }
+      })();
+
+      // CARROSSEL
+      const track = document.getElementById("carousel-track");
+      const slides = Array.from(track.children);
+      const dotsWrap = document.getElementById("carousel-dots");
+      const counterEl = document.getElementById("carousel-counter");
+      let currentIndex = 0;
+      let autoplayTimer = null;
+
+      slides.forEach((_, i) => {
+        const dot = document.createElement("button");
+        dot.setAttribute("aria-label", "Ir para foto " + (i + 1));
+        if (i === 0) dot.classList.add("active");
+        dot.addEventListener("click", () => goToSlide(i));
+        dotsWrap.appendChild(dot);
+      });
+
+      function updateCarousel() {
+        track.style.transform = `translateX(-${currentIndex * 100}%)`;
+        counterEl.textContent = `${currentIndex + 1} / ${slides.length}`;
+        Array.from(dotsWrap.children).forEach((dot, i) => {
+          dot.classList.toggle("active", i === currentIndex);
+        });
+      }
+
+      function moveCarousel(direction) {
+        currentIndex =
+          (currentIndex + direction + slides.length) % slides.length;
+        updateCarousel();
+        restartAutoplay();
+      }
+
+      function goToSlide(index) {
+        currentIndex = index;
+        updateCarousel();
+        restartAutoplay();
+      }
+
+      function startAutoplay() {
+        autoplayTimer = setInterval(() => moveCarousel(1), 5000);
+      }
+
+      function restartAutoplay() {
+        clearInterval(autoplayTimer);
+        startAutoplay();
+      }
+
+      // Suporte a swipe no mobile
+      const carouselEl = document.getElementById("carousel");
+      let touchStartX = 0;
+
+      carouselEl.addEventListener("touchstart", (e) => {
+        touchStartX = e.touches[0].clientX;
+      });
+
+      carouselEl.addEventListener("touchend", (e) => {
+        const touchEndX = e.changedTouches[0].clientX;
+        const diff = touchStartX - touchEndX;
+        if (Math.abs(diff) > 40) {
+          moveCarousel(diff > 0 ? 1 : -1);
+        }
+      });
+
+      updateCarousel();
+      startAutoplay();
+
+      // CONTATO VIA WHATSAPP
+      function enviarParaWhatsApp(event) {
+        event.preventDefault();
+
+        const nome = document.getElementById("nome").value;
+        const email = document.getElementById("email").value;
+        const telefone = document.getElementById("whatsapp").value;
+        const mensagem = document.getElementById("mensagem").value;
+
+        const numero = "558186340513";
+
+        const texto =
+          `Olá! Novo contato do site Eletrônico Apocalipse:%0A` +
+          `Nome: ${nome}%0A` +
+          `Email: ${email}%0A` +
+          `WhatsApp: ${telefone}%0A` +
+          `Mensagem: ${mensagem}`;
+
+        window.open(`https://wa.me/${numero}?text=${texto}`);
+      }
+    </script>
+  </body>
+</html>
